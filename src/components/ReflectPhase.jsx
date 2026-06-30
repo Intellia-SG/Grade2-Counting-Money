@@ -6,26 +6,26 @@ import {
 } from '../utils/narration';
 
 const REFLECT_QUESTIONS = [
-  { q: "There are 3 plates. Each plate has 4 cookies. How many cookies altogether?", options: [
-    { text: "12 — Add 4 three times", correct: true, emoji: "🍪" },
-    { text: "7 — Add 3 and 4", correct: false, emoji: "➕" },
-    { text: "We can't tell", correct: false, emoji: "❓" },
+  { q: "If you pay with a $5 bill for a $2 apple, how much change should you get?", options: [
+    { text: "$3 — Subtract 2 from 5", correct: true, emoji: "🍎" },
+    { text: "$2 — Same as the cost", correct: false, emoji: "💵" },
+    { text: "$7 — Add 5 and 2", correct: false, emoji: "➕" },
   ]},
-  { q: "What makes groups 'equal'?", options: [
-    { text: "Every group has the same number", correct: true, emoji: "✅" },
-    { text: "All groups are big", correct: false, emoji: "❌" },
-    { text: "The groups are next to each other", correct: false, emoji: "❓" },
+  { q: "Which of the following is equivalent to one $10 bill?", options: [
+    { text: "Two $5 bills", correct: true, emoji: "💵" },
+    { text: "Ten Quarters", correct: false, emoji: "🪙" },
+    { text: "Five Dimes", correct: false, emoji: "🪙" },
   ]},
-  { q: "15 stickers shared equally among 5 friends. How many does each friend get?", options: [
-    { text: "3 each", correct: true, emoji: "🧩" },
-    { text: "5 each", correct: false, emoji: "❌" },
-    { text: "10 each", correct: false, emoji: "❓" },
+  { q: "How many Quarters make exactly 50 cents?", options: [
+    { text: "2 Quarters", correct: true, emoji: "🪙" },
+    { text: "4 Quarters", correct: false, emoji: "🪙" },
+    { text: "10 Quarters", correct: false, emoji: "🪙" },
   ]},
 ];
 
 const CONFIDENCE_LEVELS = [
-  { emoji: '😊', label: "I'm great at equal groups!", color: '#4caf50' },
-  { emoji: '🙂', label: 'I can make most equal groups!', color: '#ff9800' },
+  { emoji: '😊', label: "I'm great at counting money!", color: '#4caf50' },
+  { emoji: '🙂', label: 'I can count most coins & notes!', color: '#ff9800' },
   { emoji: '😐', label: "I'm still learning", color: '#42a5f5' },
 ];
 
@@ -107,29 +107,35 @@ export default function ReflectPhase({ stats, onRestart, onGoHome, audioEnabled 
   if (step === 0) {
     const rq = REFLECT_QUESTIONS[teachIdx];
     return (
-      <div className="reflect-phase">
-        <div className="reflect-header">
-          <h3 className="reflect-label">📓 Reflect</h3>
+      <div className="reflect-phase" style={{ padding: '40px 20px' }}>
+        <div className="reflect-header" style={{ marginBottom: 24 }}>
+          <h3 className="reflect-label" style={{ background: 'var(--purple-light)' }}>📓 Reflect</h3>
           <p className="reflect-sublabel">Teach the mascot what you learned!</p>
         </div>
-        <div className="reflect-card">
-          <div className="reflect-mascot-row">
-            <div className="mascot thinking" style={{ width: 70, height: 70, fontSize: '2rem' }}>🤖</div>
-            <div className="speech-bubble" style={{ maxWidth: 280 }}>Can you help me? {rq.q}</div>
+        <div className="reflect-card" style={{ maxWidth: 600, width: '100%', margin: '0 auto' }}>
+          <div className="reflect-mascot-row" style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
+            <img src="/images/piggy_mascot.png" alt="Mascot" className="mascot thinking" style={{ width: 70, height: 70, background: 'none' }} />
+            <div className="speech-bubble" style={{ maxWidth: 320, background: 'var(--bg-card-solid)', color: 'white', border: '1px solid rgba(255,255,255,0.1)' }}>Can you help me? {rq.q}</div>
           </div>
-          <div className="reflect-options">
+          <div className="reflect-options" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {rq.options.map((opt, i) => (
               <button key={i}
                 className={`reflect-option ${teachAnswered ? (opt.correct ? 'correct' : 'wrong') : ''}`}
-                onClick={() => handleTeachAnswer(opt)} disabled={teachAnswered}>
-                <span className="reflect-option-emoji">{opt.emoji}</span>
+                onClick={() => handleTeachAnswer(opt)} disabled={teachAnswered}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px',
+                  borderRadius: '12px', background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)', color: 'white',
+                  cursor: 'pointer', textAlign: 'left', fontSize: '1.05rem', fontWeight: 600
+                }}>
+                <span className="reflect-option-emoji" style={{ fontSize: '1.5rem' }}>{opt.emoji}</span>
                 <span>{opt.text}</span>
               </button>
             ))}
           </div>
-          <div className="reflect-progress">
+          <div className="reflect-progress" style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 24 }}>
             {REFLECT_QUESTIONS.map((_, i) => (
-              <div key={i} className={`reflect-dot ${i === teachIdx ? 'active' : i < teachIdx ? 'done' : ''}`} />
+              <div key={i} className={`reflect-dot ${i === teachIdx ? 'active' : i < teachIdx ? 'done' : ''}`} style={{ width: 10, height: 10, borderRadius: '50%' }} />
             ))}
           </div>
         </div>
@@ -140,16 +146,20 @@ export default function ReflectPhase({ stats, onRestart, onGoHome, audioEnabled 
   // Step 1: Confidence
   if (step === 1) {
     return (
-      <div className="reflect-phase">
-        <div className="reflect-card">
-          <h3 className="reflect-card-title">How do you feel about equal groups?</h3>
+      <div className="reflect-phase" style={{ padding: '40px 20px' }}>
+        <div className="reflect-card" style={{ maxWidth: 600, width: '100%', margin: '0 auto', textAlign: 'center' }}>
+          <h3 className="reflect-card-title" style={{ fontSize: '1.6rem', color: 'white', marginBottom: 8 }}>How do you feel about counting money?</h3>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 24 }}>Be honest — every answer is great!</p>
-          <div className="confidence-grid">
+          <div className="confidence-grid" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {CONFIDENCE_LEVELS.map((c, i) => (
               <button key={i} className={`confidence-btn ${confidence === i ? 'selected' : ''}`}
-                onClick={() => handleConfidenceSelect(i)} style={{ '--conf-color': c.color }}>
-                <span className="confidence-emoji">{c.emoji}</span>
-                <span className="confidence-label">{c.label}</span>
+                onClick={() => handleConfidenceSelect(i)} style={{
+                  '--conf-color': c.color, display: 'flex', alignItems: 'center', gap: 16,
+                  padding: '16px 20px', borderRadius: '12px', background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)', color: 'white', cursor: 'pointer', fontSize: '1.1rem'
+                }}>
+                <span className="confidence-emoji" style={{ fontSize: '2rem' }}>{c.emoji}</span>
+                <span className="confidence-label" style={{ fontWeight: 'bold' }}>{c.label}</span>
               </button>
             ))}
           </div>
@@ -160,52 +170,62 @@ export default function ReflectPhase({ stats, onRestart, onGoHome, audioEnabled 
 
   // Step 2: Certificate
   return (
-    <div className="reflect-phase">
+    <div className="reflect-phase" style={{ padding: '40px 20px' }}>
       {showConfetti && (
-        <div className="confetti-container">
+        <div className="confetti-container" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 1000, overflow: 'hidden' }}>
           {confettiPieces.map(p => (
             <div key={p.id} className="confetti-piece" style={{
               left: `${p.x}%`, animationDelay: `${p.delay}s`,
               backgroundColor: p.color, width: p.size, height: p.size,
-              animationDuration: `${p.duration}s`,
+              animationDuration: `${p.duration}s`, position: 'absolute', top: -10
             }} />
           ))}
         </div>
       )}
-      <div className="certificate-card">
-        <div className="cert-badge">🏆</div>
-        <h2 className="cert-title">Journey Complete!</h2>
-        <p className="cert-subtitle">You finished all 5 phases!</p>
-        <div className="score-circle">
-          <span className="score-number">{pct}%</span>
-          <span className="score-label">{score}/{totalAnswered}</span>
+      <div className="certificate-card" style={{ maxWidth: 600, width: '100%', margin: '0 auto', textAlign: 'center', padding: '32px 24px' }}>
+        <div className="cert-badge" style={{ fontSize: '4rem', marginBottom: 12 }}>🏆</div>
+        <h2 className="cert-title" style={{ fontSize: '2rem', color: 'var(--gold)', margin: '0 0 4px' }}>Quest Complete!</h2>
+        <p className="cert-subtitle" style={{ color: 'var(--text-secondary)', marginBottom: 20 }}>You restored the Numeralia Treasure Market!</p>
+        
+        <div className="score-circle" style={{
+          width: 130, height: 130, borderRadius: '50%',
+          border: '5px solid var(--gold)', display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
+          boxShadow: '0 0 20px rgba(255,193,7,0.3)', background: 'rgba(0,0,0,0.2)'
+        }}>
+          <span className="score-number" style={{ fontSize: '2.2rem', fontWeight: 'bold', color: 'white' }}>{pct}%</span>
+          <span className="score-label" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{score}/{totalAnswered} Correct</span>
         </div>
+
         <div style={{ fontSize: '2rem', display: 'flex', gap: 8, justifyContent: 'center', margin: '16px 0' }}>
           {[1, 2, 3].map(i => (
             <span key={i} style={{ opacity: i <= Math.ceil(totalStars / 3) ? 1 : 0.2 }}>⭐</span>
           ))}
         </div>
-        <div className="cert-stats">
+
+        <div className="cert-stats" style={{ display: 'flex', justifyContent: 'space-around', margin: '24px 0', padding: '16px 0', borderTop: '1px solid rgba(255,255,255,0.1)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
           <div className="cert-stat">
-            <div className="cert-stat-value" style={{ color: 'var(--gold)' }}>{xp}</div>
-            <div className="cert-stat-label">XP Earned</div>
+            <div className="cert-stat-value" style={{ color: 'var(--gold)', fontSize: '1.5rem', fontWeight: 'bold' }}>{xp}</div>
+            <div className="cert-stat-label" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>XP Earned</div>
           </div>
           <div className="cert-stat">
-            <div className="cert-stat-value" style={{ color: 'var(--coral)' }}>🔥 {maxStreak}</div>
-            <div className="cert-stat-label">Max Streak</div>
+            <div className="cert-stat-value" style={{ color: 'var(--coral)', fontSize: '1.5rem', fontWeight: 'bold' }}>🔥 {maxStreak}</div>
+            <div className="cert-stat-label" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Max Streak</div>
           </div>
           <div className="cert-stat">
-            <div className="cert-stat-value" style={{ color: 'var(--green-light)' }}>{teachCorrect}/{REFLECT_QUESTIONS.length}</div>
-            <div className="cert-stat-label">Teaching</div>
+            <div className="cert-stat-value" style={{ color: 'var(--green-light)', fontSize: '1.5rem', fontWeight: 'bold' }}>{teachCorrect}/{REFLECT_QUESTIONS.length}</div>
+            <div className="cert-stat-label" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Teaching</div>
           </div>
         </div>
-        <div className="mascot-container" style={{ marginTop: 16 }}>
-          <div className="mascot happy" style={{ width: 80, height: 80, fontSize: '2rem' }}>🤖</div>
-          <div className="speech-bubble">
-            {pct >= 80 ? 'Incredible! You are an Equal Groups Master! 🏆' : pct >= 50 ? 'Great effort! Keep practicing! 💪' : 'Good start! Try again to improve! 📚'}
+
+        <div className="mascot-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginTop: 16 }}>
+          <img src="/images/piggy_mascot.png" alt="Mascot" className="mascot happy" style={{ width: 80, height: 80, background: 'none' }} />
+          <div className="speech-bubble" style={{ background: 'var(--bg-card-solid)', color: 'white', border: '1px solid rgba(255,255,255,0.1)', fontSize: '0.9rem', textAlign: 'left' }}>
+            {pct >= 80 ? 'Incredible! You are a Master Treasurer! 🏆' : pct >= 50 ? 'Great effort! Keep practicing! 💪' : 'Good start! Try again to improve! 📚'}
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginTop: 24 }}>
+
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginTop: 32 }}>
           <button className="btn btn-primary btn-lg" onClick={() => { narrationRef.current?.cancel(); stopNarration(); onRestart(); }}>🔄 Play Again</button>
           <button className="btn btn-secondary" onClick={() => { narrationRef.current?.cancel(); stopNarration(); onGoHome(); }}>🏠 Home</button>
         </div>

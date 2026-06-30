@@ -4,34 +4,34 @@ import { wonderNarration, wonderDiscoverNarration } from '../utils/narration';
 
 const WONDER_QUESTIONS = [
   {
-    question: "Mia has 12 strawberries and 3 plates. Can she put the same number on every plate?",
-    subtext: "When every group gets the same amount, we call them equal groups!",
-    emoji: "🍓",
-    bgEmojis: ["🍓", "🍽️", "✨", "🔢"],
+    question: "Why do some small coins (like Dimes) have a larger value than bigger coins (like Nickels)?",
+    subtext: "Coins have values based on their metal history, not just their size!",
+    emoji: "🪙",
+    bgEmojis: ["🪙", "💵", "✨", "🔢"],
   },
   {
-    question: "There are 4 tables. Each table has 3 bowls. How many bowls altogether?",
-    subtext: "Equal groups help us count lots of things quickly!",
-    emoji: "🍜",
-    bgEmojis: ["🍜", "🪑", "🔢", "💡"],
+    question: "Why do we use paper banknotes instead of carrying hundreds of heavy gold and silver coins?",
+    subtext: "Paper money is lightweight and makes it easy to carry large values!",
+    emoji: "💵",
+    bgEmojis: ["💵", "👛", "👑", "✨"],
   },
   {
-    question: "If every bag has 5 oranges, and there are 3 bags, how many oranges are there?",
-    subtext: "Putting the same number in every bag — that is equal groups!",
-    emoji: "🍊",
-    bgEmojis: ["🍊", "🛍️", "🧮", "✨"],
+    question: "Is four quarters the exact same amount of money as a one-dollar bill?",
+    subtext: "Four quarters adds up to 100 cents, which equals one dollar!",
+    emoji: "🇺🇸",
+    bgEmojis: ["🪙", "💵", "🇺🇸", "✨"],
   },
   {
-    question: "Can you share 10 stickers fairly among 5 friends?",
-    subtext: "Fair sharing means making equal groups — everyone gets the same!",
-    emoji: "⭐",
-    bgEmojis: ["⭐", "🤝", "🎯", "🔢"],
+    question: "How does a shopkeeper know exactly how much change to give you back?",
+    subtext: "They subtract the cost of the item from the money you paid!",
+    emoji: "🏪",
+    bgEmojis: ["🏪", "🧾", "💰", "✨"],
   },
   {
-    question: "3 groups of 4 — is that the same as 4 + 4 + 4?",
-    subtext: "Equal groups and repeated addition are best friends!",
-    emoji: "🧮",
-    bgEmojis: ["🧮", "➕", "🎲", "🌟"],
+    question: "Can you buy something that costs 75 cents if you only have dimes and nickels?",
+    subtext: "Yes! There are many different ways to combine coins to make the same value!",
+    emoji: "🛍️",
+    bgEmojis: ["🛍️", "🪙", "🧮", "✨"],
   },
 ];
 
@@ -101,8 +101,8 @@ export default function WonderPhase({ onComplete, audioEnabled }) {
           <div className="wonder-qmark-glow" />
         </div>
         <div className={`wonder-mascot ${stage >= 1 ? 'visible' : ''}`}>
-          <div className="mascot thinking">🤖</div>
-          <div className="speech-bubble wonder-bubble">Hmm... I wonder... 🤔</div>
+          <img src="/images/piggy_mascot.png" alt="Mascot" className="mascot thinking" style={{ background: 'none' }} />
+          <div className="speech-bubble wonder-bubble" style={{ background: 'var(--bg-card-solid)', color: 'white', border: '1px solid rgba(255,255,255,0.1)' }}>Hmm... I wonder... 🤔</div>
         </div>
         <div className={`wonder-question-card ${stage >= 1 ? 'visible' : ''}`}>
           <div className="wonder-emoji">{wonder.emoji}</div>

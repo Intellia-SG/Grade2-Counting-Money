@@ -41,7 +41,6 @@ export default function App() {
     setPlayStats(null);
   }, []);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => stopNarration();
   }, []);
@@ -52,9 +51,10 @@ export default function App() {
   return (
     <>
       <FloatingNumbers />
-      <div className="app-container">
+      <div className={`app-container ${phase === 'intro' ? 'no-scroll' : ''}`}>
+
         {/* Audio Toggle */}
-        <button className="audio-toggle-btn" onClick={toggleAudio} title={audioEnabled ? 'Mute' : 'Unmute'}>
+        <button className="audio-toggle-btn" onClick={toggleAudio} title={audioEnabled ? 'Mute narration' : 'Unmute narration'}>
           {audioEnabled ? '🔊' : '🔇'}
         </button>
 
@@ -69,7 +69,7 @@ export default function App() {
         {showJourney && (
           <div className="journey-bar">
             {JOURNEY_ITEMS.map((item, i) => {
-              const stepPhaseIndex = i + 1; // wonder=1, story=2, etc.
+              const stepPhaseIndex = i + 1;
               const isActive = phaseIndex === stepPhaseIndex;
               const isCompleted = phaseIndex > stepPhaseIndex;
               return (

@@ -5,16 +5,11 @@ import { playWorldIntro, playReadQuestion, playCorrectNarration, playWrongNarrat
 import QuestionRenderer from './QuestionRenderer';
 
 const WORLDS = [
-  { id: 0, name: 'Strawberry Farm', icon: '🍓', color: '#ff4081', desc: 'Questions 1–10' },
-  { id: 1, name: 'Jungle Trek', icon: '🌴', color: '#4caf50', desc: 'Questions 11–20' },
-  { id: 2, name: 'Ocean Deep', icon: '🌊', color: '#03a9f4', desc: 'Questions 21–30' },
-  { id: 3, name: 'Sky Islands', icon: '☁️', color: '#00bcd4', desc: 'Questions 31–40' },
-  { id: 4, name: 'Volcano Peak', icon: '🌋', color: '#ff5722', desc: 'Questions 41–50' },
-  { id: 5, name: 'Space Station', icon: '🚀', color: '#673ab7', desc: 'Questions 51–60' },
-  { id: 6, name: 'Dragon Cave', icon: '🐉', color: '#e91e63', desc: 'Questions 61–70' },
-  { id: 7, name: 'Crystal Tower', icon: '💎', color: '#9c27b0', desc: 'Questions 71–80' },
-  { id: 8, name: 'Rainbow Bridge', icon: '🌈', color: '#ffeb3b', desc: 'Questions 81–90' },
-  { id: 9, name: 'Number Palace', icon: '🏰', color: '#ff9800', desc: 'Questions 91–100' },
+  { id: 0, name: 'Coin Forest', icon: '🌲', color: '#2e7d32', desc: 'Coin Recognition' },
+  { id: 1, name: 'Counting Stream', icon: '🌊', color: '#1565c0', desc: 'Counting Coins' },
+  { id: 2, name: 'Note Mountains', icon: '⛰️', color: '#6a1b9a', desc: 'Note Recognition' },
+  { id: 3, name: 'Shopping Festival', icon: '🎪', color: '#e65100', desc: 'Mixed Money & Shopping' },
+  { id: 4, name: 'Treasure Checkout', icon: '🏆', color: '#c62828', desc: 'Making Change' },
 ];
 
 function calcXP(attempt, streak) {
@@ -133,7 +128,7 @@ export default function PlayPhase({ onComplete, audioEnabled }) {
     } else {
       setStreak(0); setLives(l => l - 1);
       sounds.wrong();
-      setFeedback({ type: 'wrong', message: 'Not quite!', sub: q.explanation });
+      setFeedback({ type: 'wrong', message: 'Not quite! 🤔', sub: q.explanation });
       if (audioEnabled) {
         narrationRef.current = narrate(playWrongNarration(), true);
       }
@@ -142,68 +137,84 @@ export default function PlayPhase({ onComplete, audioEnabled }) {
     }
   }, [streak, q, advance, lives, finishWorld, audioEnabled]);
 
-  // World Map
+  // ─── World Map ───────────────────────────────────
   if (currentWorld < 0) {
     const allDone = WORLDS.every((_, i) => worldResults[i]);
     return (
-      <div className="play-phase">
+      <div className="play-phase" style={{ padding: '40px 20px' }}>
         <div className="play-header">
-          <h2 className="play-title">🎮 Play — Choose Your World!</h2>
-          <p className="play-subtitle">Beat each world to unlock the next one. Earn stars and XP!</p>
-          {totalXP > 0 && <div className="play-xp-badge">⭐ {totalXP} XP</div>}
+          <h2 className="play-title">🎮 Choose Your World!</h2>
+          <p className="play-subtitle">Complete each world to unlock the next one. Earn stars and XP!</p>
+          {totalXP > 0 && <div className="play-xp-badge" style={{ background: 'var(--gold)', color: 'black', padding: '6px 20px', borderRadius: '20px', fontWeight: 'bold', display: 'inline-block', marginTop: 8 }}>⭐ {totalXP} XP</div>}
         </div>
-        <div className="world-map">
+        <div className="world-map" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, padding: '20px 0', width: '100%', maxWidth: 860 }}>
           {WORLDS.map((w, i) => {
             const unlocked = i === 0 || worldResults[i - 1];
             const completed = worldResults[i];
             return (
               <div key={w.id} className={`world-card ${unlocked ? 'unlocked' : 'locked'} ${completed ? 'completed' : ''}`}
-                onClick={() => unlocked && startWorld(i)} style={{ '--world-color': w.color }}>
-                {!unlocked && <div className="world-lock">🔒</div>}
-                <div className="world-icon">{w.icon}</div>
-                <div className="world-name">{w.name}</div>
-                <div className="world-desc">{w.desc}</div>
+                onClick={() => unlocked && startWorld(i)}
+                style={{
+                  '--world-color': w.color,
+                  borderRadius: '20px',
+                  background: unlocked ? `linear-gradient(135deg, ${w.color}cc 0%, ${w.color}88 100%)` : 'rgba(255,255,255,0.05)',
+                  border: `2px solid ${unlocked ? w.color : 'rgba(255,255,255,0.1)'}`,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  gap: 8, padding: '20px 12px', cursor: unlocked ? 'pointer' : 'not-allowed',
+                  opacity: unlocked ? 1 : 0.5, transition: 'transform 0.2s, box-shadow 0.2s',
+                  boxShadow: unlocked ? `0 6px 20px ${w.color}44` : 'none',
+                  position: 'relative', minHeight: 170
+                }}>
+                {!unlocked && <div className="world-lock" style={{ position: 'absolute', top: 8, right: 8, fontSize: '1rem' }}>🔒</div>}
+                <div className="world-icon" style={{ fontSize: '2.5rem' }}>{w.icon}</div>
+                <div className="world-name" style={{ fontWeight: 'bold', color: 'white', textAlign: 'center', fontSize: '0.95rem' }}>{w.name}</div>
+                <div className="world-desc" style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.7)', textAlign: 'center' }}>{w.desc}</div>
                 {completed && (
-                  <div className="world-stars">
-                    {[1, 2, 3].map(s => (<span key={s} style={{ opacity: s <= completed.stars ? 1 : 0.2 }}>⭐</span>))}
-                    <span className="world-score">{completed.score}/{completed.total}</span>
+                  <div className="world-stars" style={{ display: 'flex', gap: 2 }}>
+                    {[1, 2, 3].map(s => (<span key={s} style={{ opacity: s <= completed.stars ? 1 : 0.2, fontSize: '1.1rem' }}>⭐</span>))}
+                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', marginLeft: 4 }}>{completed.score}/{completed.total}</span>
                   </div>
                 )}
-                {unlocked && !completed && <div className="world-play-btn">▶ PLAY</div>}
+                {unlocked && !completed && <div className="world-play-btn" style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '10px', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', color: 'white' }}>▶ PLAY</div>}
               </div>
             );
           })}
         </div>
         {allDone && (
           <button className="btn btn-green btn-lg" onClick={handleAllComplete} style={{ marginTop: 24, animation: 'bounceIn 0.5s ease' }}>
-            🏆 Complete Challenge!
+            🏆 Complete Quest!
           </button>
         )}
       </div>
     );
   }
 
-  // World Complete
+  // ─── World Complete ──────────────────────────────
   if (worldComplete) {
     const w = WORLDS[currentWorld];
     const stars = calcStars(score, worldQuestions.length);
     const isLastWorld = currentWorld === WORLDS.length - 1;
     return (
-      <div className="play-phase">
-        <div className="world-complete-card">
-          <div className="world-complete-icon">{w.icon}</div>
-          <h2 className="world-complete-title">{w.name} Complete!</h2>
-          <div className="world-complete-score">{score}/{worldQuestions.length}</div>
-          <div className="world-complete-stars">
+      <div className="play-phase" style={{ padding: '40px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="world-complete-card" style={{
+          background: `linear-gradient(135deg, ${w.color}99, ${w.color}44)`,
+          border: `2px solid ${w.color}`, borderRadius: '24px',
+          padding: '40px 32px', textAlign: 'center', maxWidth: 440, width: '100%',
+          boxShadow: `0 10px 30px ${w.color}33`, animation: 'bounceIn 0.6s'
+        }}>
+          <div style={{ fontSize: '3.5rem', marginBottom: 12 }}>{w.icon}</div>
+          <h2 style={{ color: 'white', fontSize: '1.8rem', margin: '0 0 8px' }}>{w.name} Complete!</h2>
+          <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'white', margin: '12px 0' }}>{score}/{worldQuestions.length}</div>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', margin: '16px 0' }}>
             {[1, 2, 3].map(s => (
-              <span key={s} className={`world-star ${s <= stars ? 'earned' : ''}`} style={{ animationDelay: `${s * 0.2}s` }}>⭐</span>
+              <span key={s} style={{ fontSize: '2rem', opacity: s <= stars ? 1 : 0.2, animation: s <= stars ? `bounceIn ${s * 0.2 + 0.2}s ease` : 'none' }}>⭐</span>
             ))}
           </div>
-          <div className="world-complete-xp">⭐ {totalXP} XP earned</div>
-          <div style={{ display: 'flex', gap: 12, marginTop: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 24 }}>⭐ {totalXP} XP earned total</div>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn btn-outline btn-sm" onClick={backToMap}>← World Map</button>
             {isLastWorld ? (
-              <button className="btn btn-green" onClick={handleAllComplete}>🏆 Finish!</button>
+              <button className="btn btn-green" onClick={handleAllComplete}>🏆 Finish Quest!</button>
             ) : (
               <button className="btn btn-primary" onClick={() => {
                 setWorldResults(prev => ({ ...prev, [currentWorld]: { score, total: worldQuestions.length, stars } }));
@@ -216,40 +227,75 @@ export default function PlayPhase({ onComplete, audioEnabled }) {
     );
   }
 
-  // Question View
+  // ─── Question View ───────────────────────────────
   if (!q) return null;
   const w = WORLDS[currentWorld];
   const pct = Math.round((qIndex / worldQuestions.length) * 100);
 
   return (
-    <div className="play-phase">
-      <div className="play-world-badge" style={{ background: w.color }}>{w.icon} {w.name}</div>
-      <div className="hud">
-        <div className="hud-item">⭐ {totalXP}</div>
-        <div className="hearts">
-          {Array.from({ length: 3 }, (_, i) => (<span key={i} style={{ opacity: i < lives ? 1 : 0.2 }}>❤️</span>))}
-        </div>
-        <div className={`hud-item ${streak >= 5 ? 'streak-fire' : ''}`}>🔥 {streak}x</div>
+    <div className="play-phase" style={{ padding: '20px' }}>
+      {/* World badge */}
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 8, background: w.color,
+        color: 'white', padding: '6px 18px', borderRadius: '20px', fontWeight: 'bold',
+        fontSize: '0.9rem', marginBottom: 12, boxShadow: `0 4px 12px ${w.color}66`
+      }}>
+        {w.icon} {w.name}
       </div>
-      <div style={{ width: '100%', maxWidth: 700, marginBottom: 16 }}>
-        <div className="progress-bar-container">
-          <div className="progress-bar-label">
-            <span>Question {qIndex + 1}/{worldQuestions.length}</span>
-            <span>{pct}%</span>
-          </div>
-          <div className="progress-bar-track"><div className="progress-bar-fill" style={{ width: `${pct}%` }} /></div>
+
+      {/* HUD */}
+      <div className="hud" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ fontWeight: 'bold', color: 'var(--gold)', fontSize: '1rem' }}>⭐ {totalXP} XP</div>
+        <div className="hearts" style={{ display: 'flex', gap: 4 }}>
+          {Array.from({ length: 3 }, (_, i) => (<span key={i} style={{ opacity: i < lives ? 1 : 0.2, fontSize: '1.2rem' }}>❤️</span>))}
+        </div>
+        <div style={{ fontWeight: 'bold', color: streak >= 5 ? 'var(--coral)' : 'var(--text-secondary)', fontSize: '1rem' }}>
+          🔥 {streak}x
         </div>
       </div>
-      <div className="question-card" style={{ animation: 'slideUp 0.3s ease' }}>
+
+      {/* Progress Bar */}
+      <div style={{ width: '100%', marginBottom: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 4 }}>
+          <span>Question {qIndex + 1}/{worldQuestions.length}</span>
+          <span>{pct}%</span>
+        </div>
+        <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ width: `${pct}%`, height: '100%', background: 'linear-gradient(90deg, var(--gold), var(--coral))', transition: 'width 0.4s ease', borderRadius: 4 }} />
+        </div>
+      </div>
+
+      {/* Question Card */}
+      <div className="question-card glass-card" style={{ animation: 'slideUp 0.3s ease', maxWidth: 700, width: '100%', margin: '0 auto' }}>
         <QuestionRenderer question={q} onAnswer={handleAnswer} disabled={answered} />
       </div>
-      {xpPopup && <div className="xp-popup">{xpPopup}</div>}
+
+      {/* XP Popup - small floating badge top-right */}
+      {xpPopup && <div style={{
+        position: 'fixed', top: 72, right: 20,
+        background: 'linear-gradient(135deg, var(--gold), var(--gold-dark))',
+        color: '#1a1a2e', padding: '6px 16px', borderRadius: '999px',
+        fontWeight: 800, fontSize: '0.95rem',
+        animation: 'floatUp 1.5s ease forwards',
+        zIndex: 400, pointerEvents: 'none',
+        boxShadow: '0 4px 14px rgba(255,193,7,0.5)',
+        whiteSpace: 'nowrap'
+      }}>{xpPopup}</div>}
+
+      {/* Feedback Overlay */}
       {feedback && (
-        <div className="feedback-overlay">
-          <div className={`feedback-content ${feedback.type}`}>
-            <div className="feedback-emoji">{feedback.type === 'correct' ? '🎉' : '😢'}</div>
-            <div className="feedback-message">{feedback.message}</div>
-            <div className="feedback-sub">{feedback.sub}</div>
+        <div className="feedback-overlay" style={{
+          position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(0,0,0,0.5)', zIndex: 50, backdropFilter: 'blur(4px)'
+        }}>
+          <div className={`feedback-content ${feedback.type}`} style={{
+            background: feedback.type === 'correct' ? 'rgba(76, 175, 80, 0.95)' : 'rgba(244, 67, 54, 0.95)',
+            borderRadius: '24px', padding: '32px 40px', textAlign: 'center', maxWidth: 460,
+            boxShadow: '0 10px 40px rgba(0,0,0,0.5)', animation: 'bounceIn 0.4s ease'
+          }}>
+            <div style={{ fontSize: '3rem', marginBottom: 12 }}>{feedback.type === 'correct' ? '🎉' : '😢'}</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white', marginBottom: 8 }}>{feedback.message}</div>
+            <div style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{feedback.sub}</div>
           </div>
         </div>
       )}

@@ -1,0 +1,599 @@
+MONEY QUEST ADVENTURE
+Product Requirements Document (PRD)
+Grade 2 Mathematics  |  Money - Counting Money
+A Gamified Interactive Learning Adventure for Global Grade 2 Learners
+Document Information
+Document Type
+Product Requirements Document (PRD)
+Product Name
+Money Quest Adventure
+Subject
+Grade 2 Mathematics - Money & Counting Money
+Version
+1.0 - Initial Release
+Target Audience
+Grade 2 Students (Ages 6-8) Worldwide
+Curriculum Alignment
+Common Core, Singapore Math, UK KS1, Australian Curriculum, CBSE/ICSE
+Platform Type
+Interactive Gamified Web Application
+Learning Methodology
+Equal-Inspired Discovery-Based Education
+Document Status
+Final - Ready for Design & Development
+Table of Contents
+1. Executive Summary
+Money Quest Adventure is a premium gamified mathematics learning platform designed exclusively for Grade 2 students worldwide. This platform transforms the abstract challenge of learning money concepts into an immersive, story-driven adventure where young learners help restore a magical marketplace by mastering real-world money skills.
+Inspired by the discovery-based learning philosophy of the Equal platform, Money Quest Adventure abandons traditional static exercises in favour of interactive simulations, audio-synchronized storytelling, and progressive concept disclosure. Every lesson is a chapter in an evolving adventure where mathematical achievement unlocks new shops, characters, and treasure chests.
+CORE PRODUCT VISION
+Transform Grade 2 money learning from a memorization exercise into a living, breathing marketplace adventure where children discover, simulate, and master coin recognition, counting, shopping, and change-making through guided exploration rather than rote instruction.
+The platform serves students across six major global curriculum frameworks, ensuring that whether a child is in Singapore, the United States, the United Kingdom, Australia, or India, the mathematical concepts presented are curriculum-aligned, age-appropriate, and pedagogically sound.
+Key differentiators of Money Quest Adventure:
+Simulation-first education: Students interact with virtual coins, notes, and cash registers before encountering formal practice problems.
+Audio-driven narration: Every screen features human-like character narration synchronized with on-screen animations, creating an immersive audiovisual learning experience.
+Dynamic question generation: An AI-powered engine generates unlimited unique questions, shopping scenarios, and word problems - never repeating the same exercise twice.
+Story-unlock progression: Mathematical mastery unlocks new story chapters, marketplace shops, and character upgrades, creating genuine motivational momentum.
+Global accessibility: Multi-language support, dyslexia-friendly fonts, colour-blind modes, and WCAG 2.1 AA compliance ensure inclusive access for all learners.
+2. Product Vision
+Money Quest Adventure envisions a world where every Grade 2 child, regardless of geography, language, or learning ability, can confidently navigate real-world financial situations. Our platform bridges the gap between abstract mathematical concepts and tangible life skills through the power of interactive storytelling.
+2.1 Vision Statement
+VISION
+To become the world's most beloved Grade 2 money learning experience - a platform where children don't just learn about money, they live it through adventure, discovery, and joyful mathematical exploration.
+2.2 Mission
+Our mission is to equip every Grade 2 learner with confident, applicable money skills through:
+Immersive simulation environments that replicate real shopping and payment scenarios
+Story-driven progression that makes mathematical practice emotionally engaging
+Discovery-based pedagogy that allows children to construct understanding through interaction
+Adaptive difficulty that meets each child precisely at their current level of mastery
+Global curriculum alignment ensuring relevance across all major educational systems
+2.3 Design Philosophy - Equal-Inspired Learning
+The platform's pedagogical architecture is modelled after the Equal learning methodology, which prioritises:
+Equal Principle
+Money Quest Implementation
+One concept per screen
+Each simulation introduces exactly one new money concept with no competing information
+Visual-first explanations
+Every concept debuts through animated coin/note interactions before any text explanation appears
+Audio-synchronized narration
+Character voices narrate every action in real-time, synchronized to the millisecond with animations
+Progressive concept disclosure
+Concepts layer incrementally - pennies before nickels, single coins before combinations
+Story-driven exploration
+The Lost Treasure Market narrative provides emotional context for every mathematical task
+Interactive simulations before practice
+Students manipulate virtual money for a minimum of 3 simulation rounds before encountering formal questions
+Minimal cognitive overload
+Maximum 3 learning elements per screen; new elements animate in one at a time
+Smooth transitions
+All screen transitions use 400ms ease-in-out animations with audio cues
+Learning through discovery
+Students discover denomination relationships by handling coins, not by reading tables
+3. Educational Goals & Learning Outcomes
+3.1 Primary Educational Goals
+By completing the Money Quest Adventure, Grade 2 students will achieve mastery across the following educational goals:
+Goal Area
+Specific Goal
+Mastery Indicator
+Coin Recognition
+Identify all standard coins by sight, feel, and value
+Student correctly names and values 10 random coins with 95% accuracy
+Note Recognition
+Identify standard banknotes and their denominations
+Student correctly matches notes to values with 95% accuracy
+Counting Coins
+Count collections of same and mixed coins
+Student accurately counts collections up to $5.00 equivalent
+Counting Notes
+Count collections of banknotes
+Student accurately counts note collections up to $50.00 equivalent
+Mixed Money
+Combine coins and notes to reach target amounts
+Student creates correct combinations in 3+ different ways
+Equal Amounts
+Find multiple ways to make the same monetary value
+Student finds minimum 3 combinations for any given amount
+Comparing Money
+Compare two amounts using >, <, = relationships
+Student correctly compares 20 pairs with 90% accuracy
+Paying Correct Amount
+Select exact coins/notes to pay for items
+Student pays correctly for 15 consecutive shopping scenarios
+Making Change
+Calculate and receive correct change
+Student calculates change accurately in 20 consecutive problems
+Shopping Problems
+Solve multi-step shopping word problems
+Student solves 10 word problems with 85% accuracy
+Financial Awareness
+Understand the concept of spending vs. saving
+Student demonstrates understanding through scenario choices
+3.2 Curriculum-Mapped Learning Outcomes
+Learning outcomes are mapped against five global curriculum frameworks to ensure international relevance:
+Common Core State Standards (USA)
+2.MD.C.8: Solve word problems involving dollar bills, quarters, dimes, nickels, and pennies using $ and cent symbols appropriately
+2.NBT.A: Understand place value in context of money (ones = pennies, tens = dimes, hundreds = dollar)
+2.OA.A.1: Use addition and subtraction to solve money word problems involving situations of adding to and taking from
+Singapore Math Framework
+Money concepts: counting, adding, and subtracting money in dollars and cents
+Using mental calculation strategies for money amounts up to $10
+Solving 1-step and 2-step word problems involving money with renaming
+UK Key Stage 1 (Mathematics)
+Recognise and know the value of different denominations of coins and notes
+Find different combinations of coins that equal the same amounts of money
+Solve simple problems in a practical context involving addition and subtraction of money
+Australian Curriculum (Mathematics)
+Count and order small collections of Australian coins and notes according to their value
+Represent money values in multiple ways and count the change required for simple transactions
+CBSE/ICSE Foundational Mathematics
+Identification of Indian currency coins and notes
+Addition and subtraction of money with decimal notation
+Simple word problems involving money in everyday contexts
+4. User Personas
+4.1 Primary Persona: The Student Learner
+Student Persona
+Details
+Name
+Priya (7 years old) / Liam (8 years old)
+Grade
+Grade 2
+Tech Comfort
+Comfortable with tablets and touchscreens; limited keyboard experience
+Learning Style
+Visual and kinaesthetic; responds well to audio instructions
+Attention Span
+15-25 minutes per session
+Motivation
+Rewards, characters, adventure stories, and being able to "win"
+Challenges
+Abstract concepts without visual anchors; reading-heavy interfaces; long instruction text
+Goals
+Complete the adventure, earn all badges, unlock all shops, show parents progress
+Device
+Shared family tablet (iPad/Android) or school Chromebook
+Session Frequency
+3-5 times per week, 15-30 minutes per session
+Parent Involvement
+Moderate - parents check progress reports weekly
+4.2 Secondary Persona: The Parent
+Parent Persona
+Details
+Name
+Sarah (Mother, 34) / John (Father, 37)
+Concern
+Child is struggling with money concepts in school; wants supplemental practice
+Tech Comfort
+High - smartphone and laptop user
+Session Monitoring
+Reviews weekly progress; checks worksheet completion
+Purchase Decision
+Motivated by curriculum alignment, school-readiness, and visible progress
+Communication Preference
+Email summaries, in-app notifications
+Key Questions
+Is this curriculum-aligned? Can I print practice sheets? How is my child progressing?
+Feature Priorities
+Progress dashboard, printable worksheets, curriculum alignment indicators
+Concerns
+Screen time, data privacy, COPPA compliance, age-appropriate content
+4.3 Tertiary Persona: The Teacher
+Teacher Persona
+Details
+Name
+Ms. Emma Chen (Grade 2 Teacher, 5 years experience)
+School Type
+Public elementary school; class size 25-30 students
+Usage Context
+Homework supplement, classroom station activity, intervention support
+Tech Comfort
+Moderate - uses Google Classroom and educational apps regularly
+Key Needs
+Classroom reports, individual student tracking, printable resources, curriculum standards alignment
+Time Constraints
+Cannot spend more than 10 minutes per week reviewing platform reports
+Adoption Blockers
+Platform not curriculum-aligned, too complex to set up, no bulk student management
+Champion Criteria
+Students show measurable improvement on money assessments; parents report positive engagement
+5. Problem Statement
+5.1 The Challenge of Money Learning in Grade 2
+Money is one of the most practically significant yet pedagogically challenging topics in Grade 2 mathematics. Children encounter a unique convergence of difficulties:
+Abstraction Without Context
+Traditional money instruction presents coins and notes as abstract symbols. Children memorise that a quarter equals 25 cents, but without experiencing the physical act of counting, combining, and spending, this knowledge remains disconnected from real-world application. Research in early childhood mathematics consistently demonstrates that hands-on, contextual learning produces significantly deeper retention than symbol-based instruction.
+Multiple Denomination Complexity
+Unlike single-unit counting (1, 2, 3...), money requires simultaneous management of multiple skip-counting sequences (5s for nickels, 10s for dimes, 25s for quarters). This demands cognitive flexibility that many 7-8 year olds are still developing. Without scaffolded, visual support, students frequently confuse denominations and struggle to maintain accuracy across mixed coin collections.
+Curriculum Fragmentation
+Existing digital money learning tools are almost universally designed for a single national currency system. A child in Australia cannot use a US-focused app without encountering irrelevant content. Money Quest Adventure is the first platform designed from the ground up for global curriculum coverage, adapting denomination displays based on the student's regional settings.
+Engagement and Motivation Gaps
+Worksheet-based money practice - both physical and digital - suffers from low engagement rates. Studies show that children disengage from repetitive drill exercises within 8-12 minutes. Story-driven, gamified learning environments maintain engagement for 25-35 minutes, achieving 3-4x more practice volume per session compared to traditional formats.
+RESEARCH INSIGHT
+Children who learn mathematical concepts through interactive simulation and contextual story demonstrate 40% higher accuracy retention at 30-day follow-up compared to children who learn through static instruction (National Council of Teachers of Mathematics, 2023).
+5.2 How Money Quest Adventure Solves These Problems
+Problem
+Money Quest Solution
+Abstract coin values without context
+Interactive coin manipulation simulations with immediate visual feedback
+Multi-denomination cognitive overload
+Progressive concept disclosure: one denomination per lesson before mixing
+Single-currency platform limitations
+Adaptive currency display engine supporting 6+ global currency systems
+Low engagement in drill practice
+Story-driven adventure with genuine narrative stakes and character progression
+No real-world shopping experience
+Fully simulated marketplace with animated shopkeepers, price tags, and cash registers
+Lack of teacher/parent visibility
+Comprehensive analytics dashboard with curriculum-mapped progress tracking
+No printable take-home resources
+Auto-generated, curriculum-aligned worksheets after every lesson
+6. Gamified Story Design: The Lost Treasure Market
+6.1 Story Overview
+In the magical Kingdom of Numeralia, an ancient marketplace called The Treasure Market has fallen under a mysterious spell. The enchanted coins and banknotes have scattered across five magical lands, and the shopkeepers - gentle creatures who have tended their stalls for centuries - are unable to buy or sell anything.
+Emma, a brave young adventurer from the Kingdom, discovers she has the power to restore the market. By learning the secrets of money - how to count it, combine it, compare it, and use it - she can break the spell on each shop and bring the marketplace back to life. Children join Emma on her quest, becoming co-adventurers who use mathematical knowledge as their magic.
+6.2 Main Characters
+Character
+Description & Role
+Emma (Hero)
+The primary protagonist - a curious, brave 7-year-old girl with a magical coin pouch that can hold any denomination. She represents the student and narrates discoveries in a relatable, warm voice.
+Liam (Companion)
+Emma's best friend and sidekick. A gentle, thoughtful boy who asks clarifying questions that scaffold learning. When students struggle, Liam appears to offer hints.
+Sophia the Shopkeeper
+Ancient keeper of the Coin Forest shop. She teaches coin recognition and counting with a warm, grandmotherly voice. Unlocked in Chapter 1.
+Mike the Market Master
+The energetic manager of the Shopping Festival zone. He introduces shopping simulations and change-making with enthusiastic encouragement.
+Sarah the Treasurer
+Keeper of the Banknote Castle. She teaches note recognition and mixed money counting with an elegant, precise narration style.
+The Enchanted Piggy Bank
+A magical talking piggy bank who serves as the reward guardian. It celebrates achievements, grants treasure chests, and tracks the student's coin collection.
+The Coin Creatures
+A family of tiny animated characters living inside each coin denomination (Penny Pete, Nickel Nick, Dime Dana, Quarter Quinn). They make each coin memorable through personality.
+6.3 Story Arc & Chapter Structure
+Chapter
+Story Beat & Mathematical Content
+Prologue: The Lost Market
+Emma discovers the broken marketplace. Introduction to the concept of money and its purpose in daily life.
+Chapter 1: Coin Forest
+Emma enters the Coin Forest where coins have lost their values. Coin recognition for all denominations.
+Chapter 2: The Counting Stream
+A magical stream counts in patterns. Skip counting with coins; counting same-denomination collections.
+Chapter 3: The Note Mountains
+Giant banknotes have been scattered across the mountains. Note recognition and counting note collections.
+Chapter 4: The Mixing Valley
+Coins and notes must be combined to open ancient locks. Mixed money counting and making exact amounts.
+Chapter 5: The Comparison Bridge
+Two bridges - only the side with more gold can be crossed. Comparing money amounts with >, <, =.
+Chapter 6: The Shopping Festival
+The marketplace festival returns. Simulated shopping, paying correct amounts, and making purchases.
+Chapter 7: The Treasure Checkout
+The final challenge: a magical cash register that must be operated correctly. Change calculation mastery.
+Chapter 8: The Word Problem Castle
+An ancient castle where riddles are told in words. Shopping word problems and multi-step scenarios.
+Final: Treasure Market Restored
+All shops are restored. Emma celebrates the fully operational market. Mastery celebration and awards ceremony.
+6.4 Gamification Economy
+The game economy motivates continued engagement through a layered reward system:
+Currency & Points
+Gold Coins (XP): Earned for every correct answer, simulation completion, and lesson finish
+Treasure Stars: Earned for completing chapters; displayed on the world map
+Crystal Gems: Premium rewards for perfect scores, speed challenges, and no-hint runs
+Achievement System
+75+ unique badges across categories: accuracy, speed, exploration, and consistency
+Badge rarity tiers: Bronze, Silver, Gold, and Legendary
+Badges displayed on the student's profile card visible to parents and teachers
+Unlock System
+New marketplace shops unlock upon chapter completion
+Character costume upgrades unlock at XP milestones
+Secret mini-games unlock with special badge combinations
+Parent-shareable achievement certificates unlock at mastery completion
+Daily Engagement
+Daily Treasure Hunt: 5-question bonus challenge with 2x XP rewards
+Streak Tracking: Consecutive daily login bonuses escalating up to day 30
+Mystery Chest: Weekly surprise reward box containing bonus XP, badges, or unlockables
+7. Curriculum Mapping
+The following table provides a complete mapping of all curriculum concepts covered in Money Quest Adventure across global standards:
+Concept Area
+Topics Covered
+Platform Chapter
+Coin Recognition
+Identify penny, nickel, dime, quarter, half-dollar, dollar coin; Recognize coins by colour, size, and markings; Know the value of each coin
+Chapter 1: Coin Forest
+Note Recognition
+Identify $1, $2, $5, $10, $20 notes; Recognize notes by colour and number; Understand note denominations
+Chapter 3: Note Mountains
+Counting Coins
+Count same-denomination coin sets; Skip count by 1s, 5s, 10s, 25s; Count collections up to $2.00
+Chapter 2: Counting Stream
+Counting Notes
+Count note collections; Mix $1 and $5 notes; Collections up to $50
+Chapter 3: Note Mountains
+Mixed Money
+Combine coins and notes; Reach target amounts; Use minimum number of coins
+Chapter 4: Mixing Valley
+Equal Amounts
+Make same amount multiple ways; Find all combinations for a given value; Equivalent expressions
+Chapter 4: Mixing Valley
+Comparing Money
+Greater than, less than, equal; Compare two wallets; Order three amounts; Use >, <, = symbols
+Chapter 5: Comparison Bridge
+Making Exact Amounts
+Select coins/notes to pay exact price; No change scenarios; Minimum coin problems
+Chapter 6: Shopping Festival
+Finding Change
+Subtract to find change; Count up strategy; Mental subtraction with money
+Chapter 7: Treasure Checkout
+Shopping Problems
+Buy one item; Buy multiple items; Calculate total; Determine if enough money
+Chapter 6: Shopping Festival
+Word Problems
+1-step money problems; 2-step money problems; Real-life shopping narratives
+Chapter 8: Word Problem Castle
+Estimation
+Estimate whether you have enough; Round to nearest dollar; Reasonable estimates
+All chapters (integrated)
+Mental Calculations
+Add coins mentally; Quick change calculation; Tens and ones strategies
+All chapters (integrated)
+Financial Awareness
+Saving vs spending; Needs vs wants; Budgeting basics
+Across chapters (narrative)
+8. Learning Experience Framework
+Every lesson in Money Quest Adventure follows a 10-stage learning journey that mirrors the pedagogical sequence of effective discovery-based mathematics instruction:
+Stage
+Description & Duration
+1. STORY (2-3 min)
+An animated narrative cutscene introduces the chapter's mathematical concept through story context. Emma and companions encounter a money challenge that creates emotional stakes for the learning ahead. This stage uses full-screen animation with professional voice narration and ambient soundscape.
+2. EXPLORATION (3-4 min)
+Students are given a free sandbox environment to interact with virtual coins and notes without any goal or pressure. This unguided exploration stage lets children develop intuitions about denominations, weights, and values before formal instruction begins.
+3. SIMULATION (4-5 min)
+Guided simulation with gentle narration. Emma models the target skill while students replicate her actions. The simulation pauses at key moments, inviting the student to complete the next step. Mistakes are celebrated as learning opportunities.
+4. GUIDED LEARNING (3-4 min)
+Explicit concept introduction using visual manipulatives. Concepts appear one element at a time with synchronized narration. No information is displayed all at once - each new element animates into view with an audio explanation.
+5. INTERACTIVE LEARNING (5-6 min)
+Student-driven practice with scaffolded support. Students complete tasks independently with hint availability. The system monitors error patterns and adjusts hint frequency dynamically.
+6. PRACTICE (4-5 min)
+Standard practice questions generated dynamically. Questions are presented in a visually rich format with coins, price tags, and shopping imagery. Immediate feedback after every response with animated celebration or gentle error correction.
+7. CHALLENGE (3-4 min)
+A timed or starred challenge round with harder variations of the concept. Completing the challenge earns bonus XP and unlocks the chapter's special badge. Students can skip the challenge and return later.
+8. ASSESSMENT (3-4 min)
+A brief 5-question formative assessment that measures mastery of the lesson concept. Adaptive - if the student answers the first 3 correctly, the remaining 2 increase in difficulty. Results feed directly into the analytics dashboard.
+9. WORKSHEET (Optional)
+An auto-generated printable worksheet is made available at lesson completion. Parents receive an email notification. Teachers can access worksheets through the teacher dashboard.
+10. MASTERY CELEBRATION
+An animated victory sequence shows Emma advancing in the story. New shop unlocks, badge awards, and XP accumulation are displayed with satisfying sound effects and character dialogue. The student sees their world map updated with the newly restored marketplace section.
+9. Learning Simulation Design
+9.1 Coin Recognition Simulation
+The Coin Recognition Simulation places students in a 3D-perspective coin workshop where individual coins float toward them with a gentle spinning animation. Students can:
+Tap a coin to hear its name announced by the Coin Creature character who lives inside it
+Drag the coin to a magnification lens to see enlarged details (markings, colour, size relative to other coins)
+Rotate coins 360 degrees to inspect both sides
+Drop coins onto a value scale that shows their worth in a visual bar graph
+Sort coins into denomination pockets by dragging and dropping
+Manipulatives used: Floating coins, magnification lens, value scale, denomination pockets, Coin Creature characters
+9.2 Note Recognition Simulation
+The Banknote Castle simulation presents oversized animated notes that flutter down from the castle towers. Students:
+Unfold notes by tapping (notes start folded and expand with a satisfying paper animation)
+Match notes to their value labels by dragging them to the correct treasure chest
+Listen to Sarah the Treasurer describe the unique features of each note
+Complete a note-sorting challenge where notes fall at increasing speeds
+9.3 Counting Coins Simulation
+In the Counting Stream chapter, students use a virtual treasure bag to collect coins:
+Coins float down a magical stream and students drag them into their treasure bag
+As each coin enters the bag, a running total counter updates with a satisfying "ching" sound
+Students practice skip counting by tapping coins one at a time while the narrator counts aloud
+A visual number line shows the current running total, helping students track progress
+At completion, the bag animates shut and displays the final total with a celebration sequence
+9.4 Mixed Money Simulation
+The Mixing Valley presents a combination lock challenge where students must reach exact monetary values:
+A target amount is displayed on a magical price tag hanging from the valley gate
+Students select coins and notes from a tray and place them on a balance scale
+The scale shows progress toward the target with a visual fill animation
+Multiple valid combinations are accepted; the game congratulates creative solutions
+A "combination gallery" shows all the different ways students have successfully made each amount
+9.5 Shopping Simulation
+The Shopping Festival is the platform's most complex simulation environment:
+A fully animated marketplace with 8 different shops, each selling themed items with price tags
+Emma's wallet displays the student's available money with coin and note stacks
+Students select items to purchase by dragging them into a shopping basket
+At checkout, a friendly animated shopkeeper confirms the total and students count out payment
+The shopkeeper provides spoken confirmation: "That's 75 cents, please!"
+Audio and visual feedback confirms correct and incorrect payment attempts
+9.6 Cash Register Simulation
+The Treasure Checkout chapter features a beautifully animated vintage cash register:
+Students tap denomination keys to input the payment amount received
+The register displays the "Amount Due" and the "Amount Tendered" on a lit display
+Students count out the change by selecting coins/notes from the change tray
+The drawer opens with a mechanical sound effect when the correct change is given
+The register prints a receipt that can be printed as a real souvenir
+9.7 Money Combination Simulation
+The Equal Amounts zone challenges students to be creative with equivalent values:
+A central amount is displayed and students must find 3+ different combinations
+Each valid combination is celebrated and added to a "Combination Mosaic" display
+The mosaic gradually fills in as students discover more combinations
+A "Most Creative Solution" badge is awarded for finding the combination with the most coins
+10. Audio Learning System
+Money Quest Adventure is designed as an audio-first platform. Children who cannot read independently can navigate the entire learning experience through audio alone.
+10.1 Narration Architecture
+Audio Element
+Specification
+Primary Narrator
+Emma - warm, curious 7-year-old female voice; HiFi quality; human-recorded with emotional direction
+Companion Narration
+Liam - gentle, supportive male voice; appears during hints and encouragement moments
+Sophia (Shop 1)
+Warm grandmotherly voice; speaks slowly and clearly; ideal for coin recognition narration
+Mike (Shopping)
+Energetic young adult voice; upbeat tempo; used for shopping simulation narration
+Sarah (Notes)
+Elegant, precise voice; medium tempo; used for note recognition narration
+Narrator (Instructions)
+Neutral, clear adult voice; used for game instructions and assessment narration
+Coin Creatures
+Each coin denomination has a unique tiny voice; Penny Pete (squeaky), Quarter Quinn (bold)
+Background Audio
+Ambient marketplace sounds, magical forest ambience, gentle shop music per zone
+Sound Effects
+100+ individual sound effects: coin clinks, register dings, page turns, celebration fanfares
+Music
+8 adaptive background music tracks that shift from calm to excited based on student performance
+10.2 Narration Synchronization
+Every narration audio file is timestamped at the word level, enabling:
+Word-by-word subtitle highlighting synchronized to the exact narration timing
+Animation triggers fired at specific narration timestamps (e.g., coin appears exactly as narrator says its name)
+Pause-and-resume support: audio correctly resumes from the exact word when interrupted
+Speed control: narration can be slowed to 0.75x without pitch distortion for slower readers
+10.3 Narration Screen Integration
+Every learning screen in the platform follows this audio integration pattern:
+Screen loads with ambient background audio at reduced volume
+After a 500ms delay, the character narrator begins speaking
+Visual elements animate in synchronization with specific narration timestamps
+Interactive elements become available only after the relevant narration completes
+Student interaction triggers contextual audio feedback from the appropriate character voice
+Completion triggers a celebration sound effect and transition audio cue
+11. Practice System Design
+11.1 Practice Modes
+Practice Mode
+Description
+Guided Practice
+Step-by-step narrated practice with hints available at every step. Students cannot proceed incorrectly - wrong attempts trigger gentle narration and a visual nudge toward the correct answer.
+Independent Practice
+Standard question and response format with no narration assistance. Students answer at their own pace. Feedback appears after each question. Three incorrect attempts on the same question triggers automatic hint.
+Timed Shopping Challenge
+A timed marketplace challenge where students purchase as many items as possible before the market closes. Accuracy matters more than speed - wrong purchases subtract time. Best scores saved to profile.
+Boss Battle
+End-of-chapter challenge with 10 increasingly difficult questions. The "boss" (chapter villain) is defeated by correct answers. An HP bar shows the boss weakening with each correct response.
+Daily Mini-Game
+A fresh mini-game rotates daily, providing novel practice contexts and preventing boredom from repetition. Players who complete all 7 weekly mini-games earn a bonus treasure chest.
+11.2 Mini-Game Catalogue
+Mini-Game
+Concept Practiced
+Coin Catcher
+Specific coins fall from the sky; students catch only coins matching the called denomination. Tests coin recognition speed.
+Supermarket Rush
+A moving shopping cart needs to be filled with items within a budget. Tests estimation and total cost calculation.
+Treasure Checkout
+Act as a checkout operator: scan items, tell the customer the total, receive payment, give correct change.
+Coin Puzzle
+Arrange coins in a grid to make target row/column totals. Combines money counting with logical reasoning.
+Smart Shopper
+Given a shopping list and a budget, choose which items to buy. Tests real-world financial decision-making.
+Mystery Wallet
+A wallet with hidden coins - students must determine the total from visual clues (shadows, sounds, weight indicators).
+Change Race
+Competitive race format: be the first to count the correct change for a randomly generated purchase.
+Note Sorter
+A conveyor belt delivers mixed notes; students sort them into the correct denomination bins before they fall off.
+12. Assessment Framework
+12.1 Formative Assessment
+Formative assessment is embedded invisibly into every simulation and practice session:
+Every student interaction is logged with timestamp, response time, accuracy, and attempt number
+Error patterns are detected in real-time (e.g., consistently confusing nickels and dimes)
+The system dynamically increases hint frequency when error rate exceeds 40% on a specific concept
+Formative data feeds a Knowledge Gap Map visible to teachers and parents
+12.2 Summative Assessment
+Summative assessment occurs at three key milestones:
+Chapter Assessment (5-10 questions): At the conclusion of each chapter, testing mastery of all chapter concepts
+Module Mid-Point Assessment (20 questions): At the halfway point, covering all concepts from Chapters 1-5
+Final Mastery Assessment (30 questions): Upon completing all chapters, a comprehensive evaluation of all money concepts
+12.3 Adaptive Assessment
+The adaptive assessment engine adjusts difficulty in real-time based on student performance:
+Initial difficulty level set based on pre-assessment results (or defaulted to Level 1)
+Three consecutive correct answers advance difficulty one level
+Two consecutive incorrect answers reduce difficulty one level
+Maximum difficulty ceiling prevents discouraging experiences for students near mastery
+12.4 Mastery Tracking
+Mastery Level
+Criteria
+Not Yet Started
+Lesson not accessed
+In Progress
+1-69% accuracy on formative assessment items
+Approaching Mastery
+70-84% accuracy on chapter assessment
+Mastery Achieved
+85-94% accuracy on chapter assessment
+Expert Level
+95%+ accuracy on chapter assessment with bonus challenge completion
+13. Printable Worksheet System
+Every completed lesson automatically generates a custom printable worksheet for take-home practice:
+13.1 Worksheet Types
+Standard Lesson Worksheet: 10-12 questions mirroring the lesson's learning objectives
+Shopping Worksheet: A simulated shopping scenario with 5-6 purchasing problems
+Coin Counting Sheet: Visual exercises with printed coin images requiring counting and totalling
+Money Matching Sheet: Connect-the-dots style matching between amounts and representations
+Challenge Sheet: 5 harder questions for advanced students; starred difficulty indicator
+Blank Practice Sheet: Empty templates for free-form money practice
+13.2 Worksheet Generation Specifications
+Specification
+Detail
+Format
+A4 and US Letter (auto-detected by browser locale)
+Generation
+Dynamically generated - no two worksheets identical
+Answer Key
+Separate answer key PDF generated simultaneously
+Currency Display
+Adapts to student's regional currency setting
+Difficulty
+Matched to student's current performance level
+Branding
+Money Quest Adventure header with chapter name and date
+Accessibility
+Large font option; dyslexia-friendly font option
+Export
+PDF download; optional email to parent/teacher
+Print Optimization
+Greyscale-compatible; printer-ink-efficient design
+14. Accessibility Requirements
+Money Quest Adventure is committed to universal access for all learners:
+14.1 Technical Accessibility
+WCAG 2.1 Level AA compliance for all platform components
+Full keyboard navigation support with visible focus indicators
+Screen reader compatibility using ARIA labels on all interactive elements
+Minimum touch target size of 44x44 pixels for all interactive elements
+Text-to-Speech support for all written content
+Closed captions for all audio narration (auto-generated with manual review)
+14.2 Visual Accessibility
+High Contrast Mode: Black background with white text and high-visibility coins
+Colour-blind friendly: All information conveyed by colour is also conveyed by shape or label
+Dyslexia Support: OpenDyslexic font option; increased letter spacing; no justified text
+Text size adjustment: Three size levels (Normal, Large, Extra Large)
+Motion reduction: Reduced animation mode for vestibular sensitivity
+14.3 Language & Localization
+Initial launch: English (US), English (UK), English (Australian)
+Phase 2 languages: Simplified Chinese, Spanish (Latin American), Hindi, Arabic
+Phase 3 languages: French, German, Portuguese (Brazilian), Japanese
+Currency localization: Automatic currency display based on language/region selection
+RTL support: Full right-to-left layout support for Arabic and Hebrew
+15. Success Metrics & KPIs
+Metric Category
+Key Performance Indicators & Targets
+Engagement
+Daily Active Users: 65% of registered users active daily; Average Session Duration: 22+ minutes; Bounce Rate: <15% on lesson pages; Return Rate: 70% of users return within 48 hours
+Learning Outcomes
+Chapter Completion Rate: 80% of started chapters completed; Mastery Achievement Rate: 75% of students reach "Mastery Achieved" level; Pre/Post Assessment Improvement: Average 35% improvement from pre to post-assessment
+Counting Accuracy
+Coin Counting Accuracy: 90%+ at lesson completion; Mixed Money Accuracy: 85%+ at chapter completion; Change Calculation Accuracy: 80%+ at lesson completion
+Gamification Health
+Badge Earn Rate: Average student earns 3+ badges per week; Streak Maintenance: 50% of users maintain 7+ day streaks; Mini-Game Play Rate: 70% of students play daily mini-game
+Worksheet Usage
+Worksheet Generation Rate: 80% of completed lessons generate a worksheet; Worksheet Download Rate: 60% of generated worksheets downloaded; Teacher Report Access: 40% of teacher accounts access monthly reports
+Accessibility
+Accessibility Feature Usage: 15% of users enable at least one accessibility feature; Screen Reader Compatibility Score: 100% ARIA compliance; Multi-language Usage: 30% of users access in non-English language
+Business Metrics
+Trial-to-Paid Conversion: 25% of trial users convert; Net Promoter Score: 70+; Parent Satisfaction: 4.5+ star average rating; Teacher Recommendation Rate: 80% of teacher users recommend to colleagues
+16. Future Product Roadmap
+Roadmap Phase
+Features & Timeline
+Phase 1 - MVP (Month 6)
+Core money recognition and counting lessons (Chapters 1-4); Basic gamification (XP, badges, stars); Worksheet generation; Parent email reports; English language support
+Phase 2 - Beta (Month 9)
+Shopping simulation (Chapters 5-7); Advanced gamification (leaderboards, boss battles); Teacher dashboard; Multi-currency support; 3 additional languages
+Phase 3 - Production (Month 12)
+Complete 10-chapter experience; AI-powered adaptive difficulty; Full analytics suite; 8 languages; Multiplayer shopping mode (async)
+Phase 4 - Growth (Month 18)
+Parent dashboard with learning recommendations; AR coin recognition mode (mobile); AI Tutor for personalized hints; Financial literacy extension module (savings, budgeting)
+Phase 5 - Expansion (Month 24)
+Grade 3 money extension (decimals, larger amounts); Multiplayer real-time shopping festival; School district licensing with LMS integration; White-label curriculum partner licensing
+Long-term Vision (Year 3)
+Voice practice mode (students speak amounts aloud); Physical manipulative companion app (scan real coins); Financial literacy journey from Grade K through Grade 6
+- End of Product Requirements Document -
+MONEY QUEST ADVENTURE
+PRD Version 1.0  |  Ready for Design & Development

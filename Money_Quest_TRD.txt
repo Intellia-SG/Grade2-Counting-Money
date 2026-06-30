@@ -1,0 +1,1040 @@
+MONEY QUEST ADVENTURE
+Technical Requirements Document (TRD)
+Grade 2 Mathematics  |  Money - Counting Money
+Production-Ready Implementation Specification for Engineering Teams
+Document Information
+Document Type
+Technical Requirements Document (TRD)
+Product Name
+Money Quest Adventure
+Version
+1.0 - Initial Engineering Release
+Audience
+Frontend Engineers, Backend Engineers, DevOps, QA Engineers, Architects
+Tech Stack
+React 18 + TypeScript + Vite | Node.js + Express | PostgreSQL + Redis | AWS
+Architecture Pattern
+Microservices with Event-Driven Communication
+Performance Target
+<2s Initial Load | 60fps Animations | <100ms API Response
+Compliance
+COPPA, GDPR-K, WCAG 2.1 AA
+Document Status
+Final - Ready for Sprint Planning
+Table of Contents
+1. System Architecture Overview
+1.1 Architecture Philosophy
+Money Quest Adventure is built on a microservices architecture designed for global scalability, low-latency delivery to learners worldwide, and independent deployability of each platform subsystem. The architecture prioritises educational continuity - if any non-core service degrades, the primary learning experience remains fully functional.
+1.2 High-Level Architecture
+ARCHITECTURE PATTERN
+Client-Side Rendering (CSR) React SPA with a Node.js/Express BFF (Backend for Frontend), PostgreSQL primary database, Redis caching layer, S3 media storage, CloudFront CDN, and a separate Python-based AI Question Generation microservice. Event-driven inter-service communication via AWS SQS/SNS.
+1.3 Core Services
+Service Name
+Technology
+Responsibility
+Frontend SPA
+React 18 + TypeScript + Vite
+All learning UI, simulations, animations, and student interactions
+BFF API Gateway
+Node.js 20 + Express 5 + TypeScript
+Authentication, session management, data aggregation, frontend API
+Question Engine
+Python 3.11 + FastAPI
+Dynamic question generation, difficulty adaptation, scenario creation
+Analytics Service
+Node.js + TimescaleDB
+Real-time learning event streaming, progress tracking, report generation
+Worksheet Service
+Node.js + Puppeteer
+PDF worksheet generation, answer key creation, print optimization
+Audio Service
+CDN-delivered static assets
+Audio file delivery, narration sync manifest serving
+Gamification Service
+Node.js + Redis
+XP calculation, badge award logic, leaderboard management, streak tracking
+Notification Service
+Node.js + AWS SES/SNS
+Parent email notifications, teacher alerts, weekly progress digests
+Media Service
+AWS S3 + CloudFront
+Coin/note images, animation assets, audio files, worksheet PDFs
+Auth Service
+Node.js + JWT + OAuth 2.0
+Student, parent, and teacher authentication and authorization
+2. Technology Stack
+2.1 Frontend Stack
+Layer
+Technology
+Version
+Purpose
+Framework
+React
+18.3.x
+Component-based UI with concurrent rendering for smooth animations
+Language
+TypeScript
+5.4.x
+Type safety across all components, services, and API contracts
+Build Tool
+Vite
+5.2.x
+Fast HMR in development; optimized production bundles
+State Management
+Zustand
+4.5.x
+Lightweight global state for game progress, audio, and user session
+Animation
+Framer Motion
+11.x
+Physics-based animations for coin movements, transitions, celebrations
+2D Canvas
+Pixi.js
+8.x
+High-performance coin/note simulation rendering at 60fps
+Audio
+Howler.js
+2.2.x
+Cross-browser audio playback with sprite support and sync control
+Routing
+React Router
+6.x
+Client-side routing with lazy loading per chapter
+Forms
+React Hook Form
+7.x
+Parent/teacher registration and settings forms
+PDF Client
+React-PDF
+7.x
+Worksheet preview in-browser before download
+Styling
+CSS Modules + Tailwind
+3.4.x
+Scoped component styles with utility class system
+Testing
+Vitest + React Testing Library
+Latest
+Unit, integration, and component testing
+E2E Testing
+Playwright
+1.44.x
+End-to-end user journey testing across browsers
+2.2 Backend Stack
+Layer
+Technology
+Version
+Purpose
+Runtime
+Node.js
+20 LTS
+Primary BFF and microservices runtime
+API Framework
+Express
+5.x
+HTTP routing, middleware, and request handling
+Language
+TypeScript
+5.4.x
+Type-safe server code with shared types from monorepo
+Question Engine
+Python + FastAPI
+3.11 / 0.111
+AI question generation with NumPy randomization
+ORM
+Prisma
+5.x
+Type-safe database access with migration management
+Validation
+Zod
+3.x
+Runtime schema validation for all API inputs
+Auth
+jsonwebtoken + bcrypt
+Latest
+JWT tokens with refresh token rotation
+Queue
+BullMQ + Redis
+5.x
+Async job processing for worksheet generation and emails
+PDF Generation
+Puppeteer + Handlebars
+Latest
+Server-side worksheet and certificate PDF rendering
+Logging
+Winston + Datadog
+Latest
+Structured logging with error tracking and APM
+Testing
+Jest + Supertest
+Latest
+Unit and API integration testing
+2.3 Database & Storage
+System
+Technology
+Use Case
+Primary Database
+PostgreSQL 16
+Student profiles, progress, achievements, sessions, curriculum data
+Analytics Database
+TimescaleDB (PostgreSQL extension)
+Time-series learning events: question attempts, session durations, accuracy logs
+Cache Layer
+Redis 7
+Session tokens, leaderboards, daily challenges, question generation cache
+File Storage
+AWS S3
+Audio files, animation assets, generated worksheets, coin/note images
+CDN
+AWS CloudFront
+Global delivery of all static assets with edge caching
+Search
+PostgreSQL Full-Text Search
+Teacher/parent student lookup; word problem search
+2.4 Infrastructure & DevOps
+Component
+Technology
+Detail
+Cloud Provider
+AWS (Amazon Web Services)
+Primary cloud; multi-region deployment (us-east-1, eu-west-1, ap-southeast-1)
+Container Orchestration
+AWS ECS + Fargate
+Serverless containers; auto-scaling per service based on load
+Frontend Hosting
+AWS S3 + CloudFront
+Static asset hosting with global edge distribution
+API Gateway
+AWS API Gateway
+Rate limiting, CORS, request throttling, SSL termination
+CI/CD
+GitHub Actions
+Automated build, test, security scan, and deployment pipeline
+Monitoring
+Datadog
+APM, error tracking, custom dashboards, alert management
+Error Tracking
+Sentry
+Real-time frontend and backend error capture with stack traces
+Secret Management
+AWS Secrets Manager
+Database credentials, API keys, JWT secrets
+DNS
+AWS Route 53
+Domain management with health-check-based failover
+SSL/TLS
+AWS Certificate Manager
+Automated certificate provisioning and renewal
+Backup
+AWS RDS Automated Backups
+Daily snapshots with 7-day retention; point-in-time recovery
+3. React Application Architecture
+3.1 Project Structure
+The frontend application follows a feature-first organization pattern inspired by Equal's modular architecture:
+src/
+  components/           # Shared reusable UI components
+    ui/                  # Primitive components (Button, Card, Modal, Badge)
+    layout/              # Page layout components (AppShell, NavigationBar, Footer)
+    coins/               # Coin display components (CoinSprite, CoinStack, CoinTray)
+    notes/               # Banknote display components (NoteSprite, NoteFan)
+    marketplace/         # Market UI (ShopFront, PriceTag, ShoppingBag, Receipt)
+    characters/          # Character animation components (Emma, Liam, Sophia, Mike)
+    audio/               # Audio controls (NarrationPlayer, VolumeControl, SubtitleBar)
+  features/              # Feature modules (self-contained domain slices)
+    auth/                # Student/parent/teacher authentication flows
+    dashboard/           # Student home dashboard and world map
+    story/               # Story cutscene system and chapter management
+    coin-recognition/    # Chapter 1: Coin identification simulations
+    coin-counting/       # Chapter 2: Counting coin collections
+    note-recognition/    # Chapter 3: Note identification and counting
+    mixed-money/         # Chapter 4: Combining coins and notes
+    comparison/          # Chapter 5: Money comparison activities
+    shopping/            # Chapter 6: Shopping simulation environment
+    cash-register/       # Chapter 7: Change calculation simulation
+    word-problems/       # Chapter 8: Contextual word problem solver
+    assessment/          # Assessment engine and result screens
+    gamification/        # XP display, badge showcase, leaderboard
+    worksheets/          # Worksheet viewer and download system
+    parent-portal/       # Parent dashboard and progress reports
+    teacher-portal/      # Teacher class management and reports
+  simulations/           # Pixi.js canvas simulation engines
+    CoinSimulation.tsx   # Core coin manipulation canvas renderer
+    NoteSimulation.tsx   # Banknote animation canvas renderer
+    MarketplaceEngine.tsx# Shopping festival simulation canvas
+    RegisterEngine.tsx   # Cash register interaction canvas
+    CountingEngine.tsx   # Animated coin counting with running total
+  audio/                 # Audio system and synchronization
+    AudioEngine.ts       # Howler.js wrapper with narration queue
+    NarrationSync.ts     # Timestamp-based animation trigger system
+    AudioManifest.ts     # Type definitions for audio manifest files
+    SoundEffects.ts      # SFX library and trigger utilities
+  animations/            # Framer Motion animation presets and variants
+    coinAnimations.ts    # Coin entrance, bounce, spin, collect animations
+    screenTransitions.ts # Page-to-page transition variants
+    celebrationAnimations.ts # Success, badge-earn, level-up sequences
+    characterAnimations.ts   # Character idle, talk, react animations
+  gamification/          # Client-side gamification logic
+    xpCalculator.ts      # XP award computation
+    badgeEngine.ts       # Badge eligibility evaluation
+    streakTracker.ts     # Daily streak management with local persistence
+  analytics/             # Analytics event tracking
+    eventTracker.ts      # Learning event dispatch to Analytics Service
+    sessionManager.ts    # Session start/end and duration tracking
+  localization/          # i18n system
+    i18n.ts              # i18next configuration
+    currencies.ts        # Currency configuration per region
+    locales/             # Translation JSON files per language
+  hooks/                 # Custom React hooks
+    useAudio.ts          # Audio playback hook with narration control
+    useSimulation.ts     # Pixi.js canvas lifecycle management hook
+    useProgress.ts       # Student progress state and persistence
+    useQuestion.ts       # Question fetch, validate, and advance logic
+    useGamification.ts   # XP, badges, streak real-time state
+    useAccessibility.ts  # Accessibility settings and preference application
+  services/              # API client layer
+    api.ts               # Axios instance with auth interceptors
+    progressService.ts   # Student progress CRUD operations
+    questionService.ts   # Question generation API calls
+    worksheetService.ts  # Worksheet generation and download
+    analyticsService.ts  # Event batching and dispatch
+  state/                 # Zustand store definitions
+    studentStore.ts      # Student profile and session state
+    progressStore.ts     # Chapter/lesson progress state
+    audioStore.ts        # Audio system state (playing, volume, speed)
+    gamificationStore.ts # XP, badges, streak state
+    accessibilityStore.ts# Accessibility preferences state
+  utils/                 # Utility functions
+    currencyFormatter.ts # Format amounts per locale
+    coinCombinations.ts  # Combination-finding algorithms
+    difficultyScaler.ts  # Difficulty parameter calculation
+    validators.ts        # Input validation utilities
+  assets/                # Static assets
+    images/              # Coin, note, character, background images
+    audio/               # Narration audio (loaded from CDN in production)
+    animations/          # Lottie animation JSON files
+4. UI/UX Architecture
+4.1 Screen Flow Specification
+Every learning screen follows the Equal-inspired Narration → Visual → Interaction → Reflection → Progress flow:
+Screen Type
+Components Required
+Audio Requirement
+Transition
+Story Screen
+AnimatedCutscene, CharacterVoice, SubtitleBar, ProgressDots
+Full narration + ambient + character voices
+Fade 600ms into Exploration
+Exploration Screen
+SimulationCanvas, FreeInteract, NarrationPlayer, HintButton
+Ambient + periodic encouraging prompts
+Slide-left 400ms into Simulation
+Simulation Screen
+GuidedSimCanvas, StepIndicator, NarrationSync, CharacterGuide
+Step-by-step narration synchronized to animations
+Bounce-in 500ms into Guided Learning
+Guided Learning Screen
+ConceptCard, ProgressiveReveal, NarrationPlayer, SubtitleBar
+Concept narration with element-by-element audio triggers
+Fade 400ms into Interactive
+Interactive Screen
+InteractiveCanvas, ResponseValidator, HintSystem, FeedbackBubble
+Response audio + hint narration + feedback sounds
+Scale-up 300ms into Practice
+Practice Screen
+QuestionRenderer, MoneyVisual, AnswerInput, ProgressBar
+Question narration + result audio
+Slide 300ms between questions
+Assessment Screen
+AdaptiveQuestion, TimerBar, AccuracyTracker, MotivationMessage
+Neutral narrator + time-up sound
+Fade 600ms into Results
+Reward Screen
+CelebrationCanvas, BadgeReveal, XPCounter, StoryAdvance
+Full celebration audio + character congratulations
+Explode-in 800ms then fade to dashboard
+Worksheet Screen
+WorksheetPreview, PrintButton, EmailButton, HomeButton
+Optional narration of worksheet instructions
+Slide-up 400ms from bottom
+4.2 Component Library Standards
+All interactive elements minimum 44x44px touch target per WCAG 2.1 SC 2.5.5
+Focus ring: 3px solid #E67E22 (orange) on all focusable elements
+Animation: all transitions use ease-in-out timing function; no animations under 200ms (too fast) or over 800ms (too slow) for primary interactions
+Colour contrast: minimum 4.5:1 for body text; 3:1 for large text and UI components
+Coin sprites: minimum 80x80px render size on desktop; minimum 60x60px on mobile
+Character animations: Idle animations run at 12fps; speaking animations at 24fps using Lottie JSON
+5. Simulation Engine Design
+5.1 Coin Recognition Engine
+The Coin Recognition Engine uses Pixi.js for hardware-accelerated 2D rendering of interactive coin sprites:
+ENGINE SPECIFICATION
+Pixi.js 8.x WebGL renderer; canvas fallback for older browsers. Target: 60fps on mid-range Android tablets (2022+). Coin physics: Matter.js 0.19.x for drag-and-drop physics simulation. Texture atlases: one per denomination group (1-5 cent coins, 10-50 cent coins, 1 dollar+). Each atlas max 2048x2048px.
+Coin Sprite States: Idle (gentle rotation 1 RPM), Hover (scale 1.15 + shadow appear, 200ms), Dragging (scale 1.2 + tilt 5 degrees + shadow offset), Dropped (bounce physics, settle animation), Selected (gold ring highlight + pulse)
+Interaction Events: pointerdown, pointermove, pointerup, pointerover, pointerout - all handled through Pixi's InteractionManager
+Collision Detection: Matter.js compound bodies per coin shape; snap zones use rectangular trigger regions
+Performance Budget: Maximum 15 coin sprites simultaneously active; LOD reduction at >10 sprites
+5.2 Money Counting Engine
+The counting engine manages the running total calculation, visual feedback, and narration triggers:
+interface CountingState {
+  collectedCoins: Coin[];          // Array of coins in the bag/tray
+  runningTotal: number;            // Current total in cents
+  targetAmount: number | null;     // Target (null for open counting)
+  countingStep: number;            // Current step in guided counting
+  narrationTimestamp: number;      // Current position in audio file
+  isComplete: boolean;             // Has target been reached?
+}
+Skip counting assistance: When counting a set of same-denomination coins, the engine highlights each coin sequentially with a count-out animation, triggering the narrator to say the running total at each step. Students can toggle between "count-all" mode and "skip-count" mode via an accessibility toggle.
+5.3 Shopping Simulation Engine
+The marketplace simulation is the most complex engine in the platform, managing concurrent state across multiple shop interactions:
+Sub-System
+Technology
+Responsibility
+Marketplace Canvas
+Pixi.js scene graph
+Renders all shop fronts, items, NPCs, and weather effects
+Inventory Manager
+React state + Zustand
+Tracks wallet contents, basket items, and shop inventories
+Price Generator
+Python Question Engine API
+Generates contextually appropriate item prices per difficulty level
+Payment Validator
+TypeScript utility
+Validates exact payment, calculates change, checks sufficient funds
+NPC Dialogue
+Audio Engine
+Triggers shopkeeper lines based on student actions and payment state
+Receipt Generator
+Canvas 2D API
+Creates animated on-screen receipt after each purchase
+5.4 Animation Engine
+Framer Motion handles all React component animations. Pixi.js handles canvas animation. Lottie handles character animations.
+Animation Type
+Library
+Target FPS
+Performance Requirement
+Screen Transitions
+Framer Motion
+60fps
+Must not block user interaction; use will-change: transform
+Coin Physics
+Matter.js + Pixi.js
+60fps
+GPU-accelerated via WebGL; fallback to 30fps on low-end devices
+Character Animations
+Lottie-React
+24fps
+JSON-based vector animation; max file size 200KB per character
+Celebration Sequences
+Framer Motion + Canvas
+60fps
+Particle effects capped at 200 particles; auto-reduce on <30fps
+Text Animations
+Framer Motion
+60fps
+Letter-by-letter reveal for narration subtitle highlighting
+Progress Bars
+CSS Transitions
+60fps
+GPU-composited via opacity and transform only
+6. Audio Synchronization Engine
+6.1 Narration Manifest System
+Every narration audio file is accompanied by a JSON manifest file that maps audio timestamps to application events:
+{
+  "narration_id": "ch1_coin_intro_01",
+  "audio_file": "ch1_coin_intro_01.mp3",
+  "duration_ms": 14200,
+  "language": "en-US",
+  "character": "emma",
+  "timestamps": [
+    { "ms": 0, "event": "screen_ready", "subtitle": "" },
+    { "ms": 500, "event": "character_appear", "subtitle": "Look at this shiny coin!" },
+    { "ms": 2100, "event": "coin_animate_in", "subtitle": "This is a quarter." },
+    { "ms": 3800, "event": "value_highlight", "subtitle": "It is worth 25 cents." },
+    { "ms": 6200, "event": "interaction_unlock", "subtitle": "Can you find all the quarters?" },
+    { "ms": 14200, "event": "narration_complete", "subtitle": "" }
+  ]
+}
+6.2 Audio Engine Implementation
+The Audio Engine is built on Howler.js with a custom synchronization layer:
+Sprite system: All UI sound effects bundled into a single Howler sprite for minimal HTTP requests
+Narration queue: FIFO queue manages sequential narration playback across screen transitions
+Timestamp polling: A 50ms setInterval polls Howler's seek() position and fires events when timestamps are crossed
+State persistence: Current narration position persisted in sessionStorage; auto-resumes on browser reload
+Speed control: Howler's rate parameter adjusts playback speed (0.75, 1.0, 1.25) without pitch shift
+Interrupt handling: onvisibilitychange pauses narration; onblur reduces ambient audio to 20% volume
+6.3 Audio Asset Specifications
+Asset Type
+Format
+Quality
+Max Size
+Notes
+Narration (primary)
+MP3
+128kbps stereo
+500KB per file
+Human-recorded; normalized to -16 LUFS
+Narration (mobile)
+AAC
+96kbps stereo
+400KB per file
+Mobile-optimized encoding
+Sound Effects
+MP3 sprite
+64kbps mono
+2MB total sprite
+All SFX in single sprite per chapter
+Ambient music
+MP3
+128kbps stereo
+3MB per track
+Looping tracks; 2s loop crossfade
+Character voices
+MP3
+96kbps mono
+200KB per line
+One file per dialogue line; named by ID
+7. Dynamic Question Generation Engine
+7.1 Engine Overview
+The Question Generation Engine is a dedicated Python/FastAPI microservice that produces unlimited, curriculum-aligned, difficulty-scaled money questions with zero repetition within a session:
+ENGINE PRINCIPLE
+No hardcoded question banks. Every question is algorithmically assembled from parameterized templates, randomized values within curriculum-appropriate ranges, and contextual shopping scenarios pulled from a scenario vocabulary database. Anti-repetition logic prevents the same combination of values appearing twice in a 24-hour period per student.
+7.2 Question Type Specifications
+Question Type
+Algorithm Description
+Parameters
+Coin Counting
+Select N coins from denomination set D; compute total; generate distractors within +-20% of correct answer
+N: 1-12 coins; D: varies by level; Distractors: 3; Format: multiple choice or numeric input
+Note Counting
+Select M notes from denomination set N; compute total; ensure total does not exceed level maximum
+M: 1-6 notes; N: $1-$20; Max total: $50; Distractors: 3
+Mixed Money
+Combine K coins and J notes; compute combined total; optionally ask for minimum denomination count
+K: 1-8 coins; J: 1-3 notes; Difficulty modifier on denomination variety
+Compare Money
+Generate two amounts A and B with controlled delta D; student identifies >, <, or = relationship
+A, B range: $0.01-$9.99; Delta D: small (0-$0.25), medium (0-$1.00), large (0-$5.00)
+Exact Payment
+Generate item price P; student selects coins/notes to make exact amount P
+P range: $0.05-$9.95 (steps of $0.05); Available denominations vary by level
+Find Change
+Generate item price P and tender T where T > P; compute change C = T - P
+P: $0.25-$9.75; T: next round denomination above P; C: $0.25-$5.00
+Shopping Total
+Select 2-3 items from scenario vocabulary; compute total; may include find-change sub-problem
+Items: 2-3; Price range per item: $0.50-$5.00; Total cap: $15.00
+Word Problem
+Assemble narrative from subject+action+amount templates; embed mathematical operation
+Subjects: 20 child-relevant nouns; Actions: buy, receive, save, spend; Operation: add or subtract
+Adaptive Challenge
+Same as above but with parameters scaled 1.5x beyond current mastery level; used for challenge mode only
+Triggered when 5 consecutive correct answers at current level; auto-retreats on failure
+7.3 Anti-Repetition Algorithm
+The anti-repetition system ensures diverse question experiences:
+Session hash: A hash of the last 20 questions' parameter combinations is stored in Redis per student per session
+Candidate validation: Each generated question candidate is hashed; if hash exists in session, regenerate
+Value spacing: For numeric questions, new values must differ by at least 15% from the last 3 questions of the same type
+Scenario rotation: Shopping scenario subjects rotate through a 50-item vocabulary list; no subject repeats within 10 questions
+Daily reset: Session hashes expire at midnight UTC; fresh diversity guaranteed each day
+7.4 Difficulty Scaling System
+Level
+Coin Range
+Note Range
+Max Amount
+Operations
+Context
+L1 - Discovery
+Pennies only
+None
+$0.10
+Count
+Single denomination only
+L2 - Explorer
+Pennies + Nickels
+None
+$0.25
+Count + Compare
+Two denominations max
+L3 - Apprentice
+All coins
+None
+$1.00
+Count + Compare + Make
+Up to 5 coins
+L4 - Merchant
+All coins
+$1 note only
+$2.00
+All + Pay
+Shopping scenarios begin
+L5 - Shopkeeper
+All coins
+$1, $5 notes
+$5.00
+All + Change
+Change calculation introduced
+L6 - Treasurer
+All coins
+All notes
+$20.00
+All + Word Problems
+Multi-step problems
+L7 - Master
+All coins
+All notes
+$50.00
+All + Estimation
+Estimation and mental math
+8. Gamification Engine
+8.1 XP Calculation System
+Action
+XP Award
+Conditions
+Correct answer (first attempt)
+10 XP
+No hints used; within time limit
+Correct answer (second attempt)
+5 XP
+One hint used or one retry
+Correct answer (third+ attempt)
+2 XP
+Multiple hints or multiple retries
+Simulation completed
+25 XP
+Full simulation cycle completed
+Lesson completed
+50 XP
+All stages completed
+Chapter completed
+100 XP
+All lessons and chapter assessment passed
+Perfect score on assessment
+75 XP bonus
+All assessment questions correct, first attempt
+Daily mini-game completed
+30 XP
+Daily game finished regardless of score
+Streak bonus (day N)
+N x 5 XP
+Capped at Day 30 (150 XP daily bonus)
+Challenge mode completed
+60 XP
+Boss battle defeated in challenge mode
+8.2 Badge System
+Badges are awarded by the Badge Engine which evaluates eligibility after every question, lesson, and session:
+Badge Category
+Example Badges
+Award Logic
+Accuracy Badges
+Perfect Penny (100% accuracy on coin counting), Golden Calculator
+Accuracy threshold over N questions; evaluated per lesson
+Speed Badges
+Lightning Shopper, Quick Change Artist
+Answer N questions correctly within time threshold
+Exploration Badges
+All Shops Unlocked, Chapter Collector
+Progress milestones; chapter completion counts
+Consistency Badges
+Week Warrior (7-day streak), Month Champion (30-day streak)
+Streak thresholds; evaluated at daily login
+Social Badges
+Top of Class (classroom leaderboard rank 1), Team Player
+Leaderboard position; requires teacher setup
+Creative Badges
+Combination King (3+ ways to make same amount)
+Unusual solution paths detected by Question Engine
+Mastery Badges
+Money Master, Counting Champion, Shopping Superstar
+Chapter assessment score >= 95% on first attempt
+8.3 Leaderboard Architecture
+Classroom leaderboards: Redis sorted sets per classroom; updated in real-time on XP award
+Global leaderboards: Weekly reset; sharded by grade level to ensure fair comparison
+Leaderboard privacy: Student names displayed only within teacher-configured classroom groups; no global student identification
+Anti-gaming: XP farming detection via velocity limiting (max 500 XP per hour); suspicious patterns flagged for parent review
+9. Database Schema Design
+9.1 Core Tables
+Table Name
+Key Columns
+Purpose
+students
+id, name, grade, region, language, parent_id, teacher_id, created_at
+Core student profile and account data
+student_progress
+id, student_id, chapter_id, lesson_id, stage, completion_pct, mastery_level, last_accessed
+Tracks progress through curriculum hierarchy
+question_attempts
+id, student_id, question_type, question_params, correct, attempt_num, response_ms, hint_used, created_at
+All question interactions for analytics and adaptation
+xp_transactions
+id, student_id, amount, reason, chapter_id, lesson_id, created_at
+Audit trail of all XP awards
+badges_earned
+id, student_id, badge_id, earned_at, chapter_context
+Badge award records
+sessions
+id, student_id, started_at, ended_at, duration_ms, lessons_completed, xp_earned
+Learning session tracking
+worksheets
+id, student_id, lesson_id, generated_at, pdf_s3_key, difficulty_level, question_count
+Worksheet generation audit and S3 references
+auth_tokens
+id, user_id, user_type, token_hash, expires_at, device_id
+JWT refresh token storage
+classrooms
+id, teacher_id, name, grade, school_id, created_at
+Teacher classroom groupings
+classroom_students
+classroom_id, student_id, enrolled_at
+Many-to-many classroom membership
+9.2 TimescaleDB Analytics Tables
+The following hypertables partition by time for efficient time-series analytics:
+Hypertable
+Partition
+Key Metrics Stored
+learning_events
+Daily partitions
+All student interactions with type, value, timestamp, session context
+accuracy_timeseries
+Weekly partitions
+Rolling accuracy per concept type per student per day
+engagement_metrics
+Daily partitions
+Session duration, return visits, interaction heatmaps
+10. API Specification
+10.1 Core API Endpoints
+Method
+Endpoint
+Description
+Auth Required
+POST
+/api/auth/student/login
+Student login with pin or parent-created credentials
+No
+POST
+/api/auth/parent/register
+Parent account creation with student profile setup
+No
+GET
+/api/student/:id/progress
+Full student progress across all chapters and lessons
+Student/Parent/Teacher
+GET
+/api/student/:id/dashboard
+Home dashboard data: XP, badges, current chapter, daily challenge
+Student
+POST
+/api/questions/generate
+Generate N questions of specified type and difficulty
+Student
+POST
+/api/questions/validate
+Validate a student response and update progress
+Student
+GET
+/api/chapters/:id/lessons
+All lessons within a chapter with completion status
+Student
+POST
+/api/progress/update
+Update lesson progress stage and mastery level
+Student
+POST
+/api/gamification/xp/award
+Award XP and evaluate badge eligibility
+Service-to-Service
+GET
+/api/student/:id/badges
+All earned badges with dates and contexts
+Student/Parent/Teacher
+POST
+/api/worksheets/generate
+Request worksheet PDF generation for a completed lesson
+Student/Parent
+GET
+/api/worksheets/:id/download
+Download a generated worksheet PDF from S3
+Student/Parent/Teacher
+GET
+/api/classroom/:id/leaderboard
+Classroom XP leaderboard (teacher-enabled classrooms only)
+Student/Teacher
+GET
+/api/teacher/:id/class-report
+Full classroom progress report for teacher dashboard
+Teacher
+GET
+/api/parent/:id/child-report
+Parent-facing progress summary with recommendations
+Parent
+10.2 Question Generation API Contract
+POST /api/questions/generate
+{
+  "student_id": "uuid",
+  "question_type": "coin_counting | note_counting | mixed | compare | payment | change | shopping | word_problem",
+  "difficulty_level": 1-7,
+  "count": 5,
+  "exclude_ids": ["q_hash_1", "q_hash_2"],   // Anti-repetition
+  "currency_region": "USD | GBP | AUD | SGD | INR"
+}
+Response 200:
+{
+  "questions": [
+    {
+      "id": "q_abc123",
+      "type": "coin_counting",
+      "visual": { "coins": [{"denomination": 25, "count": 3}, {"denomination": 10, "count": 2}] },
+      "question_text": "Count the coins in Emma's treasure bag.",
+      "correct_answer": 95,
+      "distractors": [85, 90, 100],
+      "narration_id": "q_coin_count_generic_01",
+      "hint_narration_id": "hint_coin_count_skip_05",
+      "difficulty_level": 3
+    }
+  ]
+}
+11. Worksheet Generation System
+11.1 Generation Architecture
+Worksheets are generated server-side using Puppeteer rendering a Handlebars HTML template, then uploaded to S3 for persistent download access:
+Student completes lesson -> POST /api/worksheets/generate queued via BullMQ
+Worker dequeues job; calls Question Engine for 10-12 dynamically generated questions
+Handlebars template populated with questions, student name, date, chapter branding, and answer key
+Puppeteer renders template to PDF with print-optimized CSS (Helvetica font, grey-scale safe, 1cm margins)
+PDF uploaded to S3 at students/{student_id}/worksheets/{lesson_id}/{timestamp}.pdf
+Answer key uploaded separately at same path with _answers suffix
+Database record created; student, parent, and teacher receive download notification
+11.2 Worksheet PDF Specifications
+Specification
+Value
+Page Size
+A4 and US Letter (detected by browser Accept-Language header)
+Font
+Arial/Helvetica (universally available); OpenDyslexic option via cookie preference
+Font Size (Body)
+14pt for questions; 12pt for instructions
+Font Size (Large)
+18pt for questions (accessibility large mode)
+Coin Images
+High-resolution SVG coin graphics embedded as base64
+Color Usage
+Full color for screen preview; greyscale-safe (all info conveyed via labels, not color only)
+Print Ink Optimization
+White backgrounds; minimal solid color blocks; thin 1px borders
+Answer Key
+Separate PDF page with bold answers; teacher access only by default
+Generation Time SLA
+<8 seconds for 12-question worksheet
+Storage Retention
+S3 objects retained 90 days; downloadable link sent to parent email
+12. Analytics & Tracking System
+12.1 Event Taxonomy
+Event Category
+Event Names
+Key Properties Captured
+Session Events
+session_start, session_end, session_pause
+student_id, duration_ms, chapter_id, device_type, network_speed
+Navigation Events
+chapter_enter, lesson_start, stage_complete, lesson_complete, chapter_complete
+chapter_id, lesson_id, stage_name, time_spent_ms
+Question Events
+question_shown, answer_submitted, hint_requested, question_skipped
+question_id, type, difficulty, is_correct, attempt_number, response_time_ms
+Simulation Events
+simulation_start, interaction_made, simulation_complete
+sim_type, action_type, coin_denomination, interaction_count
+Audio Events
+narration_played, narration_paused, narration_replayed, speed_changed
+narration_id, character, completion_pct, new_speed
+Gamification Events
+xp_awarded, badge_earned, level_up, streak_updated
+xp_amount, reason, badge_id, new_level, streak_count
+Accessibility Events
+font_changed, contrast_toggled, tts_activated, speed_adjusted
+feature_name, previous_value, new_value
+Error Events
+api_error, asset_load_fail, simulation_crash
+error_code, error_message, component, user_agent
+12.2 Real-Time Dashboards
+Student Progress Dashboard: Chapter completion map, accuracy trend graph (7/30/90 day), XP accumulation curve, badge timeline
+Parent Dashboard: Weekly learning summary, concepts mastered vs in-progress, recommended practice areas, session frequency chart
+Teacher Dashboard: Class-wide accuracy heatmap by concept, individual student performance table sortable by any metric, knowledge gap identification, worksheet completion rate
+Admin Dashboard: Daily active users, session duration distribution, question generation volume, audio delivery performance, error rate monitoring
+13. Performance Requirements
+Metric
+Target
+Measurement Method
+Initial Page Load (FCP)
+<1.5 seconds
+Lighthouse CI on 4G connection; 95th percentile
+Time to Interactive (TTI)
+<3.0 seconds
+Lighthouse CI on mid-range mobile device
+Simulation Frame Rate
+60fps desktop; 30fps mobile minimum
+Chrome DevTools frame rate monitor; automated Playwright test
+Audio Latency
+<100ms from event trigger to audio start
+Custom AudioContext timing measurement
+API Response Time
+<200ms p95 for question generation
+Datadog APM percentile tracking
+Worksheet Generation
+<8 seconds end-to-end
+BullMQ job duration monitoring
+First Narration Start
+<300ms after screen becomes interactive
+Custom performance.mark() measurements
+Animation Jank
+Zero frames >16ms on key animations
+PerformanceObserver long task detection
+Offline Continuity
+Last 2 lessons accessible offline
+Service Worker cache; IndexedDB lesson state persistence
+Concurrent Users
+10,000 concurrent student sessions
+AWS ECS auto-scaling; load testing via Artillery.io
+14. Security Requirements
+14.1 Authentication & Authorization
+Student accounts: Parent-created with PIN-based login (4-digit numeric PIN for young children); optional Google/Apple SSO for parent-linked login
+Parent accounts: Email + password with bcrypt (cost factor 12); MFA available via TOTP
+Teacher accounts: Email + password with institutional SSO support (Google Workspace, Microsoft 365)
+JWT Strategy: Short-lived access tokens (15min); long-lived refresh tokens (30 days) stored HTTP-only cookies
+Authorization: Role-based access control (RBAC) with roles: student, parent, teacher, admin; resource ownership validation on every request
+14.2 Data Protection & Privacy
+COPPA Compliance: No collection of personal information from children under 13 without verifiable parental consent; minimal data collection principle applied throughout
+GDPR-K Compliance: Right to access, right to deletion, data portability for all student data; consent management via parent account
+Data Minimization: Student profiles contain only: display name, grade, region, progress data; no real names required for students
+Encryption at Rest: All database fields containing PII encrypted using AES-256; S3 server-side encryption enabled
+Encryption in Transit: TLS 1.3 minimum for all API communication; HTTP Strict Transport Security (HSTS) headers
+API Security: Rate limiting per IP (100 req/min) and per authenticated user (60 req/min); WAF rules via AWS WAF
+Content Security Policy: Strict CSP headers preventing XSS; no inline scripts; nonce-based script authorization
+Dependency Security: Automated Snyk scanning in CI pipeline; zero critical vulnerabilities policy for production deployment
+15. Responsive Design Specification
+Device Category
+Breakpoint
+Simulation Rendering
+Audio
+Key Adaptations
+Mobile (Portrait)
+320-767px
+Pixi.js canvas scales to 100vw; touch events primary
+Speaker + headphone; auto-play policy handled
+Stacked layout; larger touch targets 52px min; simplified navigation
+Tablet (Portrait)
+768-1023px
+Canvas 90vw max; touch primary with hover states
+Same as mobile
+Two-column layouts; expanded character sizes; full narration controls
+Tablet (Landscape)
+768-1023px landscape
+Canvas 60vw; side panel 40vw for controls
+Same as mobile
+Side-by-side simulation and instruction panels
+Desktop/Laptop
+1024-1439px
+Canvas fixed 700px; flanked by UI panels
+All audio controls visible
+Full feature set; keyboard navigation; hover states active
+Large Desktop
+1440px+
+Canvas 800px max; wider content panels
+Same as desktop
+Wider information panels; larger character animations
+Chromebook
+1024-1280px
+Same as desktop; touch + trackpad hybrid
+Speaker output; keyboard shortcuts documented
+Touch fallbacks for all interactions; stylus support
+Interactive Whiteboard
+1920px+
+Canvas 1200px; UI elements 1.5x scale
+External speaker; full volume controls
+Simplified touch zones; teacher-focused display mode
+16. CI/CD Pipeline & Deployment
+16.1 Pipeline Stages
+Stage
+Trigger
+Actions
+Gate Criteria
+Code Quality
+Every push
+ESLint, TypeScript check, Prettier formatting
+0 errors; 0 type errors; formatting compliant
+Unit Tests
+Every push
+Vitest for frontend; Jest for backend; coverage report
+>85% line coverage; 0 failures
+Integration Tests
+PR to main
+API endpoint tests with Supertest; database migration tests
+100% integration tests pass
+E2E Tests
+PR to main
+Playwright tests across Chrome, Firefox, Safari, Mobile Chrome
+All critical user journeys pass
+Security Scan
+PR to main
+Snyk dependency scan; OWASP ZAP DAST scan
+0 critical vulnerabilities
+Performance Audit
+PR to main
+Lighthouse CI automated audit on staging
+Performance score >= 85; Accessibility score >= 90
+Staging Deploy
+Merge to main
+Automated deploy to staging environment via ECS
+Health checks pass; smoke tests pass
+Production Deploy
+Manual approval
+Blue-green deployment via ECS; traffic shift 10% -> 100% over 30min
+Error rate stable; p95 latency unchanged
+16.2 Monitoring & Alerting
+Uptime monitoring: AWS Route 53 health checks + Datadog synthetic monitors; alert within 2 minutes of downtime
+Error rate alerts: PagerDuty alert if error rate > 1% for any 5-minute window in production
+Performance alerts: Alert if p95 API latency exceeds 500ms for 3 consecutive minutes
+Audio delivery alerts: Alert if CDN cache miss rate > 20% indicating asset delivery issues
+Question generation alerts: Alert if Python FastAPI service response time > 1000ms p95
+Database alerts: Alert if PostgreSQL connection pool > 80% saturation; query duration > 200ms p99
+17. Development Milestones & Sprint Plan
+Phase
+Duration
+Deliverables
+Engineering Focus
+Phase 1: Foundation (Weeks 1-6)
+6 weeks
+Project scaffold, design system, auth system, base database schema, CI/CD pipeline, development environment setup
+Infrastructure, DevOps, Frontend architecture, Authentication
+Phase 2: Core Simulations (Weeks 7-14)
+8 weeks
+Coin Recognition engine, Counting engine, Note Recognition engine, Audio synchronization system, Basic gamification (XP, stars)
+Pixi.js simulation development, Audio engine, Animation system
+Phase 3: Story & Learning (Weeks 15-20)
+6 weeks
+Story cutscene system, Chapters 1-4 complete, Guided learning framework, Interactive practice screens, Character animation integration
+Full-stack feature development, Narration integration
+Phase 4: Advanced Features (Weeks 21-28)
+8 weeks
+Shopping simulation (Chapters 5-7), Cash register simulation, Question Generation Engine (Python), Adaptive difficulty, Word problems (Chapter 8)
+Complex simulation development, Python microservice, Algorithm development
+Phase 5: Gamification & Assessment (Weeks 29-34)
+6 weeks
+Full badge system (75 badges), Leaderboards, Boss battles, Chapter assessments, Mastery tracking, Analytics dashboard
+Gamification logic, Analytics, Teacher/Parent dashboards
+Phase 6: Worksheets & Accessibility (Weeks 35-40)
+6 weeks
+PDF worksheet generation, 6 language localizations, WCAG 2.1 AA compliance audit, Screen reader testing, Performance optimization
+PDF generation, i18n, Accessibility, Performance
+MVP Launch (Week 42)
+Milestone
+Chapters 1-4, basic gamification, English only, worksheet generation, parent reports
+QA, Load testing, Security audit, Soft launch to beta users
+Beta Launch (Week 50)
+Milestone
+Chapters 1-8 complete, full gamification, 3 languages, teacher dashboard, classroom management
+Beta feedback integration, Performance at scale, Bug fixes
+Production Launch (Week 56)
+Milestone
+Full product, 6 languages, all dashboards, AI adaptive difficulty, marketing site, app store listing
+Production hardening, CDN optimization, Final QA pass
+- End of Technical Requirements Document -
+MONEY QUEST ADVENTURE
+TRD Version 1.0  |  Ready for Engineering Sprint Planning

@@ -4,46 +4,76 @@ import { getStoryNarration } from '../utils/narration';
 
 const STORY_SLIDES = [
   {
-    image: '/images/story_strawberries.png',
-    title: "Mia's Strawberries",
-    text: 'Mia has twelve strawberries. She wants to put the same number on every plate. Can she do it? How many strawberries will go on each plate?',
-    highlight: '"Can we share them equally?"',
-    mascotText: "Let's find out what equal groups means! 🍓",
+    image: '/images/c1.png',
+    gradient: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+    icon: '🏰',
+    title: 'The Lost Market',
+    text: 'Emma discovers the broken marketplace of Numeralia. A mysterious spell has scattered all the coins and banknotes, leaving the shopkeepers unable to trade. Emma has a magical pouch that can hold any currency!',
+    highlight: '"Can we break the spell on the market?"',
+    mascotText: 'Let\'s find out what money really means! 🪙',
   },
   {
-    image: '/images/story_hawker.png',
-    title: "At the Hawker Centre",
-    text: 'Wei Ming visits the hawker centre with his family. There are three tables. Each table has four bowls of noodles. Every table gets the same number of bowls. That is what we call equal groups!',
-    highlight: '"Same number in each group = Equal groups!"',
-    mascotText: "Equal means the same! 🍜",
+    image: '/images/c2.png',
+    gradient: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+    icon: '🌲',
+    title: 'Chapter 1: Coin Forest',
+    text: 'Emma enters the Coin Forest, where the Coin Creatures have lost their values! With Priya and Liam\'s help, Emma identifies the shapes, sizes, and values of Pennies, Nickels, Dimes, and Quarters.',
+    highlight: '"Pennies are copper, dimes are the smallest!"',
+    mascotText: 'Knowing coins is the first key! 🪙',
   },
   {
-    image: '/images/story_counting.png',
-    title: "Counting by Groups",
-    text: 'Three groups of four. Count with me: four, eight, twelve. Altogether equals twelve! When every group has the same number, we call them equal groups.',
-    highlight: '"4 + 4 + 4 = 12"',
-    mascotText: "That is repeated addition! ➕",
+    image: '/images/c3.png',
+    gradient: 'linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%)',
+    icon: '🌊',
+    title: 'Chapter 2: The Counting Stream',
+    text: 'A magical stream counts in patterns! Emma practices skip-counting by fives (nickels), tens (dimes), and twenty-fives (quarters) to quickly find the total value in her treasure bag.',
+    highlight: '"5, 10, 15, 20... Skip counting is fun!"',
+    mascotText: 'Fractions of a dollar make sense now! 🧮',
   },
   {
-    image: '/images/story_sharing.png',
-    title: "Fair Sharing",
-    text: "Now Wei Ming's family shares ten apples equally into five bags. Each bag gets two apples. Fair sharing means equal groups!",
-    highlight: '"10 shared into 5 groups = 2 each"',
-    mascotText: "Equal sharing is division! ➗",
+    image: '/images/c4.png',
+    gradient: 'linear-gradient(135deg, #f857a6 0%, #ff5858 100%)',
+    icon: '⛰️',
+    title: 'Chapter 3: Note Mountains',
+    text: 'High up in the Note Mountains, giant paper banknotes flutter in the wind. Sarah the Treasurer teaches Emma to recognize dollar bills: ones, fives, tens, and twenties.',
+    highlight: '"Use paper notes for larger values!"',
+    mascotText: 'Paper bills are lighter than coins! 💵',
   },
   {
-    image: '/images/story_multiply.png',
-    title: "Multiply & Divide",
-    text: 'Equal groups help us multiply. Three groups of four means four plus four plus four. That is called repeated addition! And when we share equally, that is the start of division!',
-    highlight: '"Repeated addition → Multiplication!"',
-    mascotText: "You are learning so fast! 🚀",
+    image: '/images/c5.png',
+    gradient: 'linear-gradient(135deg, #e65c00 0%, #f9d423 100%)',
+    icon: '🧗',
+    title: 'Chapter 4: The Mixing Valley',
+    text: 'Emma reaches the Mixing Valley, where ancient gates are sealed with coin and note locks. To unlock them, she must combine different coins and notes to make the exact target amounts.',
+    highlight: '"There are multiple ways to make a dollar!"',
+    mascotText: 'Let\'s mix coins and notes! 💸',
   },
   {
-    image: '/images/story_practice.png',
-    title: "Your Turn!",
-    text: 'Now you know what equal groups are! When every group has the same number, we can count them quickly with equal groups. Let us practice making equal groups ourselves!',
-    highlight: '"Equal groups — here we go!"',
-    mascotText: "Ready to explore! ✨",
+    image: '/images/c6.png',
+    gradient: 'linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)',
+    icon: '🌉',
+    title: 'Chapter 5: Comparison Bridge',
+    text: 'Emma stands before the Comparison Bridge. Two pathways lie ahead, but only the bridge holding the greater total value of money is safe to cross.',
+    highlight: '"Compare values to cross safely!"',
+    mascotText: 'Look closely at the wallet totals! ⚖️',
+  },
+  {
+    image: '/images/c7.png',
+    gradient: 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)',
+    icon: '🎪',
+    title: 'Chapter 6: Shopping Festival',
+    text: 'The Shopping Festival is restored! Emma buys items from the marketplace stalls. She counts out the exact coins and bills from her wallet to pay the shopkeepers.',
+    highlight: '"Pay the exact price to purchase items!"',
+    mascotText: 'Let\'s go shopping! 🛍️',
+  },
+  {
+    image: '/images/c8.png',
+    gradient: 'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
+    icon: '🪙',
+    title: 'Chapter 7: Treasure Checkout',
+    text: 'At the Word Problem Castle, Emma operates the magical cash register. She solves math riddles and counts out the exact change to give back to the customers.',
+    highlight: '"Subtract cost from payment to find change!"',
+    mascotText: 'You are now a Master Treasurer! 🎉',
   },
 ];
 
@@ -52,10 +82,17 @@ export default function StoryPhase({ onComplete, audioEnabled }) {
   const [anim, setAnim] = useState(false);
   const [textVis, setTextVis] = useState(false);
   const [hlVis, setHlVis] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const narrationRef = useRef(null);
+  
   const s = STORY_SLIDES[slide];
   const isLast = slide === STORY_SLIDES.length - 1;
   const pct = ((slide + 1) / STORY_SLIDES.length) * 100;
+
+  // Reset img error on slide change
+  useEffect(() => {
+    setImgError(false);
+  }, [slide]);
 
   // Preload audio
   useEffect(() => {
@@ -105,8 +142,24 @@ export default function StoryPhase({ onComplete, audioEnabled }) {
         <span className="story-progress-label">{slide + 1} / {STORY_SLIDES.length}</span>
       </div>
       <div className={`story-card ${anim ? 'flipping' : ''}`}>
-        <div className="story-image-section">
-          <img src={s.image} alt={s.title} className="story-image" onError={(e) => { e.target.style.display = 'none'; }} />
+        <div className="story-image-section" style={{
+          background: s.gradient,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative'
+        }}>
+          {!imgError ? (
+            <img 
+              src={s.image} 
+              alt={s.title} 
+              className="story-image" 
+              onError={() => setImgError(true)} 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <div style={{ fontSize: '6rem', zIndex: 2, filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.3))' }}>{s.icon}</div>
+          )}
           <div className="story-image-overlay" />
         </div>
         <div className="story-text-section">
@@ -115,10 +168,7 @@ export default function StoryPhase({ onComplete, audioEnabled }) {
           <div className={`story-highlight ${hlVis ? 'visible' : ''}`}>
             <span>✨</span><span className="story-highlight-text">{s.highlight}</span><span>✨</span>
           </div>
-          <div className="story-mascot">
-            <div className="mascot" style={{ width: 50, height: 50, fontSize: '1.4rem' }}>🤖</div>
-            <div className="speech-bubble" style={{ fontSize: '0.8rem', padding: '8px 14px', maxWidth: 180 }}>{s.mascotText}</div>
-          </div>
+
         </div>
       </div>
       <div className="story-nav">
@@ -127,7 +177,7 @@ export default function StoryPhase({ onComplete, audioEnabled }) {
           {STORY_SLIDES.map((_, i) => (<div key={i} className={`story-dot ${i === slide ? 'active' : i < slide ? 'completed' : ''}`} />))}
         </div>
         <button className={`btn ${isLast ? 'btn-green' : 'btn-primary'} btn-sm`} onClick={goNext}>
-          {isLast ? "🚀 Let's Explore!" : 'Next →'}
+          {isLast ? "🧪 Start Simulation!" : 'Next →'}
         </button>
       </div>
     </div>
