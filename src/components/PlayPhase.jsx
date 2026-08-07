@@ -143,8 +143,8 @@ export default function PlayPhase({ onComplete, audioEnabled }) {
     return (
       <div className="play-phase" style={{ padding: '40px 20px' }}>
         <div className="play-header">
-          <h2 className="play-title">🎮 Choose Your World!</h2>
-          <p className="play-subtitle">Complete each world to unlock the next one. Earn stars and XP!</p>
+          <h2 className="play-title">🎮 Practice Quest!</h2>
+          <p className="play-subtitle">Complete each practice world to unlock the next one. Earn stars and XP!</p>
           {totalXP > 0 && <div className="play-xp-badge" style={{ background: 'var(--gold)', color: 'black', padding: '6px 20px', borderRadius: '20px', fontWeight: 'bold', display: 'inline-block', marginTop: 8 }}>⭐ {totalXP} XP</div>}
         </div>
         <div className="world-map" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, padding: '20px 0', width: '100%', maxWidth: 860 }}>
@@ -175,7 +175,7 @@ export default function PlayPhase({ onComplete, audioEnabled }) {
                     <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', marginLeft: 4 }}>{completed.score}/{completed.total}</span>
                   </div>
                 )}
-                {unlocked && !completed && <div className="world-play-btn" style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '10px', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', color: 'white' }}>▶ PLAY</div>}
+                {unlocked && !completed && <div className="world-play-btn" style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '10px', padding: '4px 12px', fontSize: '0.8rem', fontWeight: 'bold', color: 'white' }}>▶ PRACTICE</div>}
               </div>
             );
           })}

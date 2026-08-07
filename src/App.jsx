@@ -13,7 +13,7 @@ const JOURNEY_ITEMS = [
   { icon: '🔍', label: 'Wonder' },
   { icon: '📖', label: 'Story' },
   { icon: '🧪', label: 'Simulate' },
-  { icon: '🎮', label: 'Play' },
+  { icon: '🎮', label: 'Practice' },
   { icon: '📓', label: 'Reflect' },
 ];
 

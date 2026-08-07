@@ -20,6 +20,13 @@ const COIN_CREATURES = {
 // ═══════════════════════════════════════════════════
 // STATION 1: Coin Workshop
 // ═══════════════════════════════════════════════════
+const COIN_LIST = [
+  { denom: 'penny', label: 'Penny', val: '1¢' },
+  { denom: 'nickel', label: 'Nickel', val: '5¢' },
+  { denom: 'dime', label: 'Dime', val: '10¢' },
+  { denom: 'quarter', label: 'Quarter', val: '25¢' },
+];
+
 function Station1({ audioEnabled, onNext }) {
   const [selectedCoin, setSelectedCoin] = useState('penny');
   const [isFlipped, setIsFlipped] = useState(false);
@@ -62,93 +69,218 @@ function Station1({ audioEnabled, onNext }) {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div className="station-header"><h2>🪙 Coin Workshop</h2></div>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: 20 }}>
+      <div className="station-header">
+        <h2 style={{ fontSize: '1.65rem', fontWeight: '800', marginBottom: '6px' }}>🪙 Coin Workshop</h2>
+      </div>
+      <p style={{ color: '#ffffff', fontSize: '1.25rem', fontWeight: '700', lineHeight: '1.5', maxWidth: 680, margin: '0 auto 14px', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
         Tap a coin to inspect it, flip it over, hear its creature story, or drop it on the value scale!
       </p>
 
       {/* Coin Selector */}
-      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginBottom: 24 }}>
-        {['penny', 'nickel', 'dime', 'quarter'].map(denom => (
+      <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 14 }}>
+        {COIN_LIST.map(c => (
           <button
-            key={denom}
-            onClick={() => handleCoinSelect(denom)}
+            key={c.denom}
+            onClick={() => handleCoinSelect(c.denom)}
             style={{
-              padding: '8px 16px',
-              borderRadius: '12px',
-              background: selectedCoin === denom ? 'var(--gold)' : 'rgba(255,255,255,0.06)',
-              border: selectedCoin === denom ? '2px solid white' : '1px solid rgba(255,255,255,0.1)',
-              color: selectedCoin === denom ? 'black' : 'white',
-              fontWeight: 'bold',
+              padding: '8px 18px',
+              borderRadius: '14px',
+              background: selectedCoin === c.denom 
+                ? 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)' 
+                : 'rgba(255,255,255,0.08)',
+              border: selectedCoin === c.denom 
+                ? '2px solid #ffffff' 
+                : '1px solid rgba(255,255,255,0.18)',
+              color: selectedCoin === c.denom ? '#1a1a2e' : '#ffffff',
+              fontSize: '1.05rem',
+              fontWeight: '800',
               cursor: 'pointer',
-              textTransform: 'capitalize',
-              transition: 'all 0.2s'
+              boxShadow: selectedCoin === c.denom ? '0 4px 15px rgba(255, 193, 7, 0.4)' : 'none',
+              transform: selectedCoin === c.denom ? 'scale(1.04)' : 'scale(1)',
+              transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
             }}
           >
-            {denom}
+            {c.label} ({c.val})
           </button>
         ))}
       </div>
 
-      {/* Inspection Area */}
-      <div style={{ display: 'flex', gap: 24, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginBottom: 30 }}>
+      {/* Inspection & Scale Area */}
+      <div style={{ display: 'flex', gap: 20, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap', marginBottom: 14 }}>
         
         {/* Coin Box */}
-        <div className="glass-card" style={{ width: 220, height: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, background: 'rgba(255,255,255,0.03)' }}>
-          <div style={{ perspective: 1000 }}>
-            <Coin denomination={selectedCoin} size={110} isFlipped={isFlipped} />
+        <div className="glass-card" style={{ 
+          width: 320, 
+          height: 290, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justify: 'space-between', 
+          padding: '14px 16px', 
+          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '16px'
+        }}>
+          <div style={{ fontSize: '1.05rem', fontWeight: '800', color: 'var(--gold)', letterSpacing: '0.5px' }}>
+            🪙 {COIN_DATA[selectedCoin].name} ({COIN_DATA[selectedCoin].value}¢)
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button className="btn btn-sm btn-outline" onClick={handleFlip}>🔄 Flip Coin</button>
-            <button className={`btn btn-sm ${narratingCreature ? 'btn-outline' : 'btn-primary'}`} onClick={handleHearCreature}>
+
+          <div style={{ perspective: 1000, margin: '6px 0' }}>
+            <Coin denomination={selectedCoin} size={120} isFlipped={isFlipped} />
+          </div>
+
+          <div style={{ display: 'flex', gap: 10, width: '100%' }}>
+            <button 
+              className="btn btn-outline" 
+              onClick={handleFlip}
+              style={{ flex: 1, padding: '8px 8px', fontSize: '0.9rem', fontWeight: '800', borderRadius: '10px', minWidth: 'auto' }}
+            >
+              🔄 Flip Coin
+            </button>
+            <button 
+              className={`btn ${narratingCreature ? 'btn-outline' : 'btn-primary'}`} 
+              onClick={handleHearCreature}
+              style={{ flex: 1, padding: '8px 8px', fontSize: '0.9rem', fontWeight: '800', borderRadius: '10px', minWidth: 'auto' }}
+            >
               🔊 Talk
             </button>
           </div>
         </div>
 
         {/* Value Scale */}
-        <div className="glass-card" style={{ width: 220, height: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '20px 16px', background: 'rgba(255,255,255,0.03)' }}>
-          <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>VALUE SCALE</span>
+        <div className="glass-card" style={{ 
+          width: 320, 
+          height: 290, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justify: 'space-between', 
+          padding: '14px 16px', 
+          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '16px'
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, width: '100%' }}>
+            <span style={{ fontSize: '1.05rem', color: 'var(--gold)', fontWeight: '800', letterSpacing: '1px' }}>
+              ⚖️ VALUE SCALE
+            </span>
+            <div style={{
+              background: scaleValue > 0 ? 'rgba(76, 175, 80, 0.25)' : 'rgba(255,255,255,0.08)',
+              border: scaleValue > 0 ? '1px solid #81c784' : '1px solid rgba(255,255,255,0.15)',
+              borderRadius: '16px',
+              padding: '3px 14px',
+              fontSize: '0.85rem',
+              fontWeight: '800',
+              color: scaleValue > 0 ? '#81c784' : 'var(--text-secondary)',
+              transition: 'all 0.3s ease'
+            }}>
+              {scaleValue > 0 ? `Measured: ${scaleValue}¢` : 'Drop coin to measure'}
+            </div>
+          </div>
           
-          <div style={{ width: '100%', height: 120, background: 'rgba(0,0,0,0.3)', borderRadius: 8, overflow: 'hidden', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+          {/* Scale Ruler Box */}
+          <div style={{ 
+            width: '100%', 
+            height: 140, 
+            background: 'rgba(10, 10, 32, 0.75)', 
+            borderRadius: 12, 
+            overflow: 'hidden', 
+            position: 'relative', 
+            border: '2px solid rgba(255,255,255,0.18)',
+            margin: '6px 0',
+            boxShadow: 'inset 0 4px 12px rgba(0,0,0,0.6)'
+          }}>
             {/* Bar Fill */}
             <div style={{
               width: '100%',
-              height: `${scaleValue * 4}%`,
-              background: 'linear-gradient(to top, var(--gold), var(--coral))',
+              height: `${(scaleValue / 25) * 100}%`,
+              background: 'linear-gradient(to top, #ff9800 0%, #ffeb3b 50%, #4caf50 100%)',
               position: 'absolute',
               bottom: 0,
               left: 0,
-              transition: 'height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-            }} />
+              boxShadow: scaleValue > 0 ? '0 -4px 15px rgba(76, 175, 80, 0.6)' : 'none',
+              transition: 'height 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }}>
+              {scaleValue > 0 && (
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '3px',
+                  background: '#ffffff',
+                  boxShadow: '0 0 8px #ffffff'
+                }} />
+              )}
+            </div>
             
             {/* Marker Lines */}
-            {[5, 10, 15, 20, 25].map(tick => (
-              <div key={tick} style={{
-                position: 'absolute',
-                bottom: `${tick * 4}%`,
-                left: 0,
-                width: '100%',
-                height: 1,
-                background: 'rgba(255,255,255,0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                paddingLeft: 4,
-                fontSize: '0.55rem',
-                color: 'rgba(255,255,255,0.5)'
-              }}>
-                {tick}¢
-              </div>
-            ))}
+            {[0, 5, 10, 15, 20, 25].map(tick => {
+              const bottomPercent = (tick / 25) * 78 + 11;
+              const isCurrent = tick === scaleValue && scaleValue > 0;
+
+              return (
+                <div key={tick} style={{
+                  position: 'absolute',
+                  bottom: `${bottomPercent}%`,
+                  left: 0,
+                  right: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0 10px',
+                  transform: 'translateY(50%)',
+                  pointerEvents: 'none',
+                  zIndex: 2
+                }}>
+                  {/* Left Label Badge */}
+                  <span style={{
+                    fontSize: isCurrent ? '0.9rem' : '0.82rem',
+                    fontWeight: '800',
+                    color: isCurrent ? '#ffd54f' : '#ffffff',
+                    background: isCurrent ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.65)',
+                    padding: '1px 6px',
+                    borderRadius: '4px',
+                    border: isCurrent ? '1.5px solid #ffd54f' : '1px solid rgba(255,255,255,0.2)',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                    letterSpacing: '0.5px'
+                  }}>
+                    {tick}¢
+                  </span>
+
+                  {/* Tick Line Across */}
+                  <div style={{
+                    flex: 1,
+                    height: '1px',
+                    marginLeft: '6px',
+                    borderBottom: isCurrent ? '2px dashed #ffd54f' : '1px dashed rgba(255,255,255,0.25)'
+                  }} />
+                </div>
+              );
+            })}
           </div>
 
-          <button className="btn btn-sm btn-outline" onClick={handleDropScale} style={{ width: '100%' }}>
+          <button 
+            className="btn btn-primary" 
+            onClick={handleDropScale} 
+            style={{ 
+              width: '100%',
+              padding: '10px 16px',
+              fontSize: '0.95rem',
+              fontWeight: '800',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #7c5cbf 0%, #4a2c8a 100%)',
+              color: '#ffffff',
+              border: '2px solid rgba(255,255,255,0.2)',
+              boxShadow: '0 4px 15px rgba(124, 92, 191, 0.4)',
+              minWidth: 'auto'
+            }}
+          >
             ⚖️ Drop on Scale
           </button>
         </div>
       </div>
 
-      <button className="btn btn-primary" onClick={onNext}>
+      <button className="btn btn-primary" onClick={onNext} style={{ padding: '10px 28px', fontSize: '1.05rem', marginTop: 0 }}>
         Next Station: Banknote Castle →
       </button>
     </div>
@@ -210,8 +342,10 @@ function Station2({ audioEnabled, onNext }) {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div className="station-header"><h2>🏰 Banknote Castle</h2></div>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: 20 }}>
+      <div className="station-header">
+        <h2 style={{ fontSize: '1.65rem', fontWeight: '800', marginBottom: '6px' }}>🏰 Banknote Castle</h2>
+      </div>
+      <p style={{ color: '#ffffff', fontSize: '1.25rem', fontWeight: '700', lineHeight: '1.5', maxWidth: 680, margin: '0 auto 16px', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
         Tap a dollar bill note, then click the glowing hotspots to discover portraits and security features!
       </p>
 
@@ -381,12 +515,14 @@ function Station3({ audioEnabled, onComplete }) {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div className="station-header"><h2>🌊 Counting Stream</h2></div>
+      <div className="station-header">
+        <h2 style={{ fontSize: '1.65rem', fontWeight: '800', marginBottom: '6px' }}>🌊 Counting Stream</h2>
+      </div>
       
       {!complete ? (
         <>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: 12 }}>
-            Tap the floating coins to catch them in your bag. Reach exactly <strong style={{ color: 'var(--gold)' }}>100 cents ($1.00)</strong>!
+          <p style={{ color: '#ffffff', fontSize: '1.25rem', fontWeight: '700', lineHeight: '1.5', maxWidth: 680, margin: '0 auto 16px', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+            Tap the floating coins to catch them in your bag. Reach exactly <strong style={{ color: '#ffd54f', textShadow: '0 0 10px rgba(255,213,79,0.5)' }}>100 cents ($1.00)</strong>!
           </p>
 
           {/* Magical River Canvas */}
@@ -395,11 +531,11 @@ function Station3({ audioEnabled, onComplete }) {
             height: 180,
             background: 'linear-gradient(180deg, #1976d2 0%, #1565c0 100%)',
             borderRadius: '16px',
-            border: '2px solid rgba(255,255,255,0.15)',
-            boxShadow: 'inset 0 4px 10px rgba(0,0,0,0.5)',
+            border: '2px solid rgba(255,255,255,0.2)',
+            boxShadow: 'inset 0 4px 12px rgba(0,0,0,0.6)',
             position: 'relative',
             overflow: 'hidden',
-            marginBottom: 20
+            marginBottom: 16
           }}>
             {/* Water Waves animation placeholders */}
             <div className="wave-animation" />
@@ -415,27 +551,28 @@ function Station3({ audioEnabled, onComplete }) {
                   top: `${coin.y}%`,
                   cursor: 'pointer',
                   transform: 'translate(-50%, -50%)',
-                  transition: 'transform 0.1s'
+                  transition: 'transform 0.1s',
+                  filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))'
                 }}
               >
-                <Coin denomination={coin.denom} size={50} showLabel={false} />
+                <Coin denomination={coin.denom} size={58} showLabel={false} />
               </div>
             ))}
           </div>
 
           {/* Skip-Counting HUD & Number Line */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: '1.5rem' }}>🎒</span>
-              <span style={{ fontSize: '1.2rem', fontFamily: 'var(--font-display)', fontWeight: 'bold' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: '1.6rem' }}>🎒</span>
+              <span style={{ fontSize: '1.35rem', fontFamily: 'var(--font-display)', fontWeight: '800', color: '#ffd54f', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
                 Total: {bagTotal}¢ / 100¢
               </span>
             </div>
-            <button className="btn btn-xs btn-outline" onClick={handleReset}>Reset Bag</button>
+            <button className="btn btn-xs btn-outline" onClick={handleReset} style={{ fontSize: '0.9rem', padding: '6px 16px', fontWeight: '700' }}>Reset Bag</button>
           </div>
 
           {/* Visual Progress Bar / Number Line */}
-          <div style={{ width: '100%', height: 24, background: 'rgba(255,255,255,0.06)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', position: 'relative', marginBottom: 24 }}>
+          <div style={{ width: '100%', height: 28, background: 'rgba(255,255,255,0.08)', borderRadius: 14, border: '1.5px solid rgba(255,255,255,0.18)', overflow: 'hidden', position: 'relative', marginBottom: 16 }}>
             <div style={{
               width: `${Math.min(bagTotal, 100)}%`,
               height: '100%',
@@ -472,24 +609,24 @@ export default function SimulatePhase({ onComplete, audioEnabled }) {
   const nextStation = useCallback(() => { if (station < 2) setStation(s => s + 1); }, [station]);
 
   return (
-    <div className="simulate-phase" style={{ padding: '40px 20px' }}>
-      <div className="simulate-header">
-        <h3 className="simulate-label" style={{ background: 'var(--purple-light)' }}>🧪 Simulate</h3>
-        <p className="simulate-sublabel">Explore and discover — no wrong answers!</p>
+    <div className="simulate-phase" style={{ padding: '50px 16px 10px' }}>
+      <div className="simulate-header" style={{ marginBottom: 6 }}>
+        <h3 className="simulate-label" style={{ background: 'var(--purple-light)', margin: 0 }}>🧪 Simulate</h3>
+        <p className="simulate-sublabel" style={{ margin: 0 }}>Explore and discover — no wrong answers!</p>
       </div>
       
       {/* Progress Dots */}
-      <div className="progress-dots" style={{ marginBottom: 30 }}>
+      <div className="progress-dots" style={{ marginBottom: 10 }}>
         {STATIONS.map((s, i) => (
           <div key={i} className="simulate-dot-wrapper">
             <div className={`progress-dot ${i === station ? 'active' : i < station ? 'completed' : ''}`} />
-            <span className="simulate-dot-label" style={{ fontSize: '1.2rem' }}>{s.icon}</span>
+            <span className="simulate-dot-label" style={{ fontSize: '1rem' }}>{s.icon}</span>
           </div>
         ))}
       </div>
 
       {/* Main Glass Card Display */}
-      <div className="glass-card" style={{ maxWidth: 800, width: '100%', animation: 'slideUp 0.4s ease', margin: '0 auto' }}>
+      <div className="glass-card" style={{ maxWidth: 860, width: '100%', animation: 'slideUp 0.4s ease', margin: '0 auto', padding: '18px 24px' }}>
         {station === 0 && <Station1 audioEnabled={audioEnabled} onNext={nextStation} />}
         {station === 1 && <Station2 audioEnabled={audioEnabled} onNext={nextStation} />}
         {station === 2 && <Station3 audioEnabled={audioEnabled} onComplete={onComplete} />}

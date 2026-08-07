@@ -96,8 +96,13 @@ export function speak(text, enabled = true, style = 'statement') {
     const myId = currentPlayId;
 
     // Stop anything currently playing
-    window.speechSynthesis?.cancel();
-    if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (currentAudio) { 
+      currentAudio.pause(); 
+      currentAudio.currentTime = 0; 
+      currentAudio.src = '';
+      currentAudio = null; 
+    }
 
     isSpeaking = true;
 
@@ -110,31 +115,43 @@ export function speak(text, enabled = true, style = 'statement') {
         const audio = new Audio(url);
         currentAudio = audio;
         audio.onended = () => { if (myId === currentPlayId) { isSpeaking = false; currentAudio = null; } resolve(); };
-        audio.onerror = () => { webSpeechFallback(text, style, resolve); };
+        audio.onerror = () => { webSpeechFallback(text, style, resolve, myId); };
         try {
           await audio.play();
         } catch {
-          webSpeechFallback(text, style, resolve);
+          webSpeechFallback(text, style, resolve, myId);
         }
         return;
       }
     } catch { /* fall through */ }
 
     // 3. Web Speech fallback
-    webSpeechFallback(text, style, resolve);
+    webSpeechFallback(text, style, resolve, myId);
   });
 }
 
-function webSpeechFallback(text, style, resolve) {
+function webSpeechFallback(text, style, resolve, playId) {
   if (!window.speechSynthesis) { isSpeaking = false; resolve(); return; }
+  
+  window.speechSynthesis.cancel();
+
   const cfg = SPEECH_CONFIG[style] || SPEECH_CONFIG.statement;
   const utt = new SpeechSynthesisUtterance(text);
   utt.rate   = cfg.rate;
   utt.pitch  = cfg.pitch;
   utt.volume = cfg.volume;
-  utt.onend  = () => { isSpeaking = false; resolve(); };
-  utt.onerror= () => { isSpeaking = false; resolve(); };
-  window.speechSynthesis.speak(utt);
+
+  utt.onend  = () => { if (!playId || playId === currentPlayId) { isSpeaking = false; } resolve(); };
+  utt.onerror= () => { if (!playId || playId === currentPlayId) { isSpeaking = false; } resolve(); };
+
+  // Short delay ensures Chrome SpeechSynthesis engine purges previous utterance queue
+  setTimeout(() => {
+    if (!playId || playId === currentPlayId) {
+      window.speechSynthesis.speak(utt);
+    } else {
+      resolve();
+    }
+  }, 20);
 }
 
 // ─── Narration segment helpers ────────────────────────────────────────────────
@@ -164,8 +181,13 @@ export function narrate(segments, enabled = true) {
   const cancel = () => {
     cancelled = true;
     if (activeQueueId === queueId) {
-      window.speechSynthesis?.cancel();
-      if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      if (currentAudio) { 
+        currentAudio.pause(); 
+        currentAudio.currentTime = 0; 
+        currentAudio.src = '';
+        currentAudio = null; 
+      }
       isSpeaking = false;
       activeQueueId = null;
     }
@@ -201,8 +223,15 @@ export function narrate(segments, enabled = true) {
 export function stopNarration() {
   currentPlayId++;
   activeQueueId = null;
-  window.speechSynthesis?.cancel();
-  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+  if (currentAudio) { 
+    currentAudio.pause(); 
+    currentAudio.currentTime = 0; 
+    currentAudio.src = '';
+    currentAudio = null; 
+  }
   isSpeaking = false;
 }
 

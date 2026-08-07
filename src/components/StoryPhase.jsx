@@ -142,21 +142,21 @@ export default function StoryPhase({ onComplete, audioEnabled }) {
         <span className="story-progress-label">{slide + 1} / {STORY_SLIDES.length}</span>
       </div>
       <div className={`story-card ${anim ? 'flipping' : ''}`}>
-        <div className="story-image-section" style={{
-          background: s.gradient,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative'
-        }}>
+        <div className="story-image-section">
           {!imgError ? (
-            <img 
-              src={s.image} 
-              alt={s.title} 
-              className="story-image" 
-              onError={() => setImgError(true)} 
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            <>
+              <img 
+                src={s.image} 
+                alt="" 
+                className="story-image-backdrop" 
+              />
+              <img 
+                src={s.image} 
+                alt={s.title} 
+                className="story-image" 
+                onError={() => setImgError(true)} 
+              />
+            </>
           ) : (
             <div style={{ fontSize: '6rem', zIndex: 2, filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.3))' }}>{s.icon}</div>
           )}
