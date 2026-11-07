@@ -37,7 +37,6 @@ const MODEL_ID = 'eleven_multilingual_v2';
 
 // ─── All Narration Texts ─────────────────────────────────────────────────────
 // Every static line of narration across all 5 phases.
-// Dynamic lines (with question text / scores) use Web Speech as fallback.
 
 const NARRATIONS = [
   // Intro

@@ -1,10 +1,10 @@
 // ──────────────────────────────────────────────────────────────────────────────
 // Audio Engine — Money Quest Adventure
 //
-// Priority for every narration line:
-//   1. Local pre-generated MP3 from audioMap.js  ← fully offline after generation
+// Narration Priority:
+//   1. Local pre-generated MP3 from audioMap.js  ← fully offline
 //   2. ElevenLabs API (direct, using VITE_ELEVENLABS_API_KEY from .env)
-//   3. Browser Web Speech Synthesis              ← zero-setup fallback
+//   (Browser Web Speech fallback completely removed to prevent robotic default voice)
 // ──────────────────────────────────────────────────────────────────────────────
 
 import { audioMap } from './audioMap.js';
@@ -30,17 +30,6 @@ const VOICE_SETTINGS = {
   statement:    { stability: 0.20, similarity_boost: 0.55, style: 0.50, use_speaker_boost: true },
 };
 
-// ─── Web Speech fallback config per style ─────────────────────────────────────
-const SPEECH_CONFIG = {
-  celebration:  { rate: 0.95, pitch: 1.35, volume: 1.0 },
-  encouragement:{ rate: 0.92, pitch: 1.30, volume: 1.0 },
-  question:     { rate: 0.82, pitch: 1.25, volume: 0.98 },
-  emphasis:     { rate: 0.78, pitch: 1.18, volume: 0.98 },
-  thinking:     { rate: 0.85, pitch: 1.05, volume: 0.92 },
-  instruction:  { rate: 0.85, pitch: 1.15, volume: 0.95 },
-  statement:    { rate: 0.88, pitch: 1.12, volume: 0.95 },
-};
-
 // ─── Get audio URL for a text ─────────────────────────────────────────────────
 export async function getAudioUrl(text, style = 'statement') {
   if (!text || !text.trim()) return null;
@@ -55,7 +44,7 @@ export async function getAudioUrl(text, style = 'statement') {
   if (fetchCache.has(cacheKey)) return fetchCache.get(cacheKey);
 
   const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
-  if (!apiKey) return null; // No key → fall through to Web Speech
+  if (!apiKey) return null;
 
   const promise = (async () => {
     try {
@@ -95,8 +84,10 @@ export function speak(text, enabled = true, style = 'statement') {
     currentPlayId++;
     const myId = currentPlayId;
 
-    // Stop anything currently playing
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    // Stop anything currently playing and ensure no browser synthesis speaks
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     if (currentAudio) { 
       currentAudio.pause(); 
       currentAudio.currentTime = 0; 
@@ -109,49 +100,48 @@ export function speak(text, enabled = true, style = 'statement') {
     try {
       const url = await getAudioUrl(text, style);
 
-      if (myId !== currentPlayId) { isSpeaking = false; resolve(); return; } // superseded
+      if (myId !== currentPlayId) { 
+        isSpeaking = false; 
+        resolve(); 
+        return; 
+      } // superseded
 
       if (url) {
         const audio = new Audio(url);
         currentAudio = audio;
-        audio.onended = () => { if (myId === currentPlayId) { isSpeaking = false; currentAudio = null; } resolve(); };
-        audio.onerror = () => { webSpeechFallback(text, style, resolve, myId); };
+        audio.onended = () => { 
+          if (myId === currentPlayId) { 
+            isSpeaking = false; 
+            currentAudio = null; 
+          } 
+          resolve(); 
+        };
+        audio.onerror = () => { 
+          if (myId === currentPlayId) { 
+            isSpeaking = false; 
+            currentAudio = null; 
+          } 
+          resolve(); 
+        };
         try {
           await audio.play();
         } catch {
-          webSpeechFallback(text, style, resolve, myId);
+          if (myId === currentPlayId) { 
+            isSpeaking = false; 
+            currentAudio = null; 
+          } 
+          resolve();
         }
         return;
       }
-    } catch { /* fall through */ }
+    } catch { /* silent fall through */ }
 
-    // 3. Web Speech fallback
-    webSpeechFallback(text, style, resolve, myId);
-  });
-}
-
-function webSpeechFallback(text, style, resolve, playId) {
-  if (!window.speechSynthesis) { isSpeaking = false; resolve(); return; }
-  
-  window.speechSynthesis.cancel();
-
-  const cfg = SPEECH_CONFIG[style] || SPEECH_CONFIG.statement;
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.rate   = cfg.rate;
-  utt.pitch  = cfg.pitch;
-  utt.volume = cfg.volume;
-
-  utt.onend  = () => { if (!playId || playId === currentPlayId) { isSpeaking = false; } resolve(); };
-  utt.onerror= () => { if (!playId || playId === currentPlayId) { isSpeaking = false; } resolve(); };
-
-  // Short delay ensures Chrome SpeechSynthesis engine purges previous utterance queue
-  setTimeout(() => {
-    if (!playId || playId === currentPlayId) {
-      window.speechSynthesis.speak(utt);
-    } else {
-      resolve();
+    // No fallback voice — resolve gracefully
+    if (myId === currentPlayId) {
+      isSpeaking = false;
     }
-  }, 20);
+    resolve();
+  });
 }
 
 // ─── Narration segment helpers ────────────────────────────────────────────────

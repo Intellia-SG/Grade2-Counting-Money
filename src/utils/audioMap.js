@@ -3,6 +3,7 @@
 // Maps narration text → local /audio/*.mp3 path for fully offline playback.
 
 export const audioMap = {
+  "Welcome to Counting Money!": "/audio/intro_1.mp3",
   "Welcome to Money Quest Adventure!": "/audio/intro_1.mp3",
   "Let's help Emma and her friends restore the Lost Treasure Market of Numeralia by mastering the magic of money.": "/audio/intro_2.mp3",
   "Are you ready to join the quest and become a Master Treasurer?": "/audio/intro_3.mp3",
